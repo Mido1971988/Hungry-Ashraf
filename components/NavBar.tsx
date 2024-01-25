@@ -7,14 +7,12 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import NavMenu from "./NavMenu";
-import { NoSsr } from "@mui/base/NoSsr";
-import { fontSize } from "@mui/system";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -25,9 +23,7 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const loggedIn = true;
-  const loggedUser = "Ashraf";
+  const { data: session } = useSession();
 
   const foodList = {
     breakfast: ["Egg", " Foul"],
@@ -58,10 +54,10 @@ export default function Navbar() {
             >
               <FastfoodIcon />
               <Typography sx={{ fontSize: { xs: "12px", sm: "16px" } }}>
-                Hungry {loggedIn ? loggedUser : "Ashraf"}
+                Hungry {session && session.user ? "loggedUser" : "Ashraf"}
               </Typography>
             </IconButton>
-            {loggedIn ? (
+            {session && session.user ? (
               <Stack direction="row">
                 <Button
                   color="inherit"
@@ -101,7 +97,7 @@ export default function Navbar() {
                 </Button>
               </Stack>
             ) : (
-              <Button color="inherit" size="large">
+              <Button color="inherit" size="large" href="./signIn">
                 Login
               </Button>
             )}
