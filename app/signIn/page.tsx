@@ -1,88 +1,4 @@
 "use client";
-// import React, { useRef, useState } from "react";
-// import Link from "next/link";
-// import { signIn } from "next-auth/react";
-// import { useRouter } from "next/navigation";
-// import { TextField, Typography } from "@mui/material";
-// import { Modal } from "@/components/Modal";
-// import { fontSize } from "@mui/system";
-// // import { toast } from "react-toastify";
-
-// // will be be props only if redirect : true in signIn (in Login.tsx)
-// type Props = {
-//   className?: string;
-//   callbackUrl?: string;
-//   error?: string;
-// };
-
-// const SignIn = (props: Props) => {
-//   const router = useRouter();
-//   let userName = "";
-//   let pass = "";
-//   // refs to Clear Input Fields after Signing in
-//   let userInput = useRef<HTMLInputElement>(null);
-//   let passInput = useRef<HTMLInputElement>(null);
-
-//   let [unAuth, setUnAuth] = useState<boolean | string>(false);
-
-//   // Yup Validation
-//   //   const validationSchema = Yup.object({
-//   //     username: Yup.string().required("Required!"),
-//   //     password: Yup.string().required("Required!"),
-//   //   });
-
-//   // to Handle Click on Sign In Button
-//   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     if (userInput && userInput.current) userInput.current.value = "";
-//     if (passInput && passInput.current) passInput.current.value = "";
-//     e.preventDefault();
-
-//     await signIn("credentials", {
-//       username: userName,
-//       password: pass,
-//       redirect: false,
-//     }).then((res) => {
-//       if (res?.error) {
-//         // toast.error("User and Pass are wrong");
-//         setUnAuth("User and Pass are wrong");
-//       } else {
-//         setUnAuth(false);
-//         router.push(props.callbackUrl ?? "/");
-//       }
-//     });
-//   };
-
-//   return (
-//     <Modal>
-//       <div>
-//         <div>Login Form</div>
-//         {unAuth && <p>{unAuth}</p>}
-
-//         <form onSubmit={onSubmit}>
-//           <TextField
-//             name="username"
-//             label="User Name"
-//             inputRef={userInput}
-//             onChange={(e) => (userName = e.target.value)}
-//           />
-//           <TextField
-//             name="password"
-//             type="password"
-//             label="Password"
-//             inputRef={passInput}
-//             onChange={(e) => (pass = e.target.value)}
-//           />
-//           <div>
-//             <button type="submit">Sign In</button>
-//             <Link href={props.callbackUrl ?? "/"}>Cancel</Link>
-//           </div>
-//         </form>
-//       </div>
-//     </Modal>
-//   );
-// };
-
-// export default SignIn;
 
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
@@ -99,7 +15,9 @@ import { useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { NoSsr, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+
+import { useCookies } from "react-cookie";
 
 type Props = {
   className?: string;
@@ -107,14 +25,23 @@ type Props = {
   error?: string;
 };
 
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: "dark",
-//   },
-// });
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+const PREFERENCE_COOKIE_NAME = "theme-preference";
 
 export default function SignIn(props: Props) {
   const router = useRouter();
+
   let userName = "";
   let pass = "";
   // refs to Clear Input Fields after Signing in
@@ -143,85 +70,71 @@ export default function SignIn(props: Props) {
     });
   };
 
-  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: isDark ? "dark" : "light",
-        },
-      }),
-    [isDark]
-  );
+  const [cookieTheme, setCookieTheme] = useCookies([PREFERENCE_COOKIE_NAME]);
+  const systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  useEffect(() => {
+    setCookieTheme(PREFERENCE_COOKIE_NAME, systemTheme ? "dark" : "light");
+    router.refresh();
+  }, [systemTheme]);
 
   return (
-    <NoSsr defer={true}>
-      <ThemeProvider theme={theme}>
-        <Container
-          component="main"
-          maxWidth="xs"
-          sx={{ height: "calc(100vh - 64px)" }}
-        >
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{ height: "calc(100vh - 64px)" }}
+    >
+      {/* <CssBaseline /> */}
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            autoFocus
+            name="username"
+            label="User Name"
+            inputRef={userInput}
+            onChange={(e) => (userName = e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            inputRef={passInput}
+            onChange={(e) => (pass = e.target.value)}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                autoFocus
-                name="username"
-                label="User Name"
-                inputRef={userInput}
-                onChange={(e) => (userName = e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                name="password"
-                type="password"
-                label="Password"
-                inputRef={passInput}
-                onChange={(e) => (pass = e.target.value)}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      </ThemeProvider>
-    </NoSsr>
+            Sign In
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
