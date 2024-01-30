@@ -3,7 +3,6 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -11,33 +10,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useEffect, useRef, useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
-
-import { useCookies } from "react-cookie";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 
 type Props = {
   className?: string;
   callbackUrl?: string;
   error?: string;
 };
-
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
-const PREFERENCE_COOKIE_NAME = "theme-preference";
 
 export default function SignIn(props: Props) {
   const router = useRouter();
@@ -65,17 +46,10 @@ export default function SignIn(props: Props) {
         setUnAuth("User and Pass are wrong");
       } else {
         setUnAuth(false);
-        router.push(props.callbackUrl ?? "/");
+        router.push(props.callbackUrl ?? "/", { scroll: false });
       }
     });
   };
-
-  const [cookieTheme, setCookieTheme] = useCookies([PREFERENCE_COOKIE_NAME]);
-  const systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
-  useEffect(() => {
-    setCookieTheme(PREFERENCE_COOKIE_NAME, systemTheme ? "dark" : "light");
-    router.refresh();
-  }, [systemTheme]);
 
   return (
     <Container
@@ -83,7 +57,6 @@ export default function SignIn(props: Props) {
       maxWidth="xs"
       sx={{ height: "calc(100vh - 64px)" }}
     >
-      {/* <CssBaseline /> */}
       <Box
         sx={{
           marginTop: 8,

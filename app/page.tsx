@@ -1,10 +1,12 @@
 import Navbar from "@/components/NavBar";
-import { CssBaseline } from "@mui/material";
+import { getServerSession } from "next-auth";
+import { options } from "./api/auth/[...nextauth]/options";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(options);
   return (
     <>
-      <Navbar />
+      <Navbar session={session} />
     </>
   );
 }

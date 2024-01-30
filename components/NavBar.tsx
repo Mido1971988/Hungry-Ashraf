@@ -3,39 +3,25 @@
 import {
   AppBar,
   Button,
-  CssBaseline,
   IconButton,
   Stack,
   Toolbar,
   Typography,
-  createTheme,
-  useMediaQuery,
 } from "@mui/material";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { useEffect, useState } from "react";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import NavMenu from "./NavMenu";
-import { useSession } from "next-auth/react";
-import { ThemeProvider } from "@mui/material/styles";
+import { signOut, useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
+import AlertDialog from "./Dialog";
+import { Session } from "next-auth";
 
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
-const PREFERENCE_COOKIE_NAME = "theme-preference";
-export default function Navbar() {
+export default function Navbar({ session }: { session: Session | null }) {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -43,7 +29,10 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { data: session } = useSession();
+
+  const handleSignOut = () => {
+    setOpenDialog(true);
+  };
 
   const foodList = {
     breakfast: ["Egg", " Foul"],
@@ -51,16 +40,8 @@ export default function Navbar() {
     dinner: ["labnah", "Zaatar"],
   };
 
-  const [cookieTheme, setCookieTheme] = useCookies([PREFERENCE_COOKIE_NAME]);
-  const systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
-  useEffect(() => {
-    setCookieTheme(PREFERENCE_COOKIE_NAME, systemTheme ? "dark" : "light");
-    router.refresh();
-  }, [systemTheme]);
-
   return (
-    // <ThemeProvider theme={darkTheme}>
-    <AppBar sx={{ bgcolor: "primary.main" }}>
+    <AppBar sx={{ bgcolor: "primary.dark" }}>
       <Toolbar>
         <Stack direction="row" width="100%" justifyContent="space-between">
           <IconButton
@@ -81,7 +62,7 @@ export default function Navbar() {
           >
             <FastfoodIcon />
             <Typography sx={{ fontSize: { xs: "12px", sm: "16px" } }}>
-              Hungry {session && session.user ? "loggedUser" : "Ashraf"}
+              Hungry {session && session.user ? session?.user.name : "Ashraf"}
             </Typography>
           </IconButton>
           {session && session.user ? (
@@ -92,7 +73,7 @@ export default function Navbar() {
                 aria-controls={open ? "breakfast" : undefined}
                 aria-expanded={open ? "true" : undefined}
                 aria-haspopup="true"
-                endIcon={<KeyboardArrowDown />}
+                // endIcon={<KeyboardArrowDown />}
                 onClick={handleClick}
                 sx={{ fontSize: { xs: "12px", sm: "14px" } }}
               >
@@ -104,7 +85,7 @@ export default function Navbar() {
                 aria-controls={open ? "launch" : undefined}
                 aria-expanded={open ? "true" : undefined}
                 aria-haspopup="true"
-                endIcon={<KeyboardArrowDown />}
+                // endIcon={<KeyboardArrowDown />}
                 onClick={handleClick}
                 sx={{ fontSize: { xs: "12px", sm: "14px" } }}
               >
@@ -116,12 +97,24 @@ export default function Navbar() {
                 aria-controls={open ? "dinner" : undefined}
                 aria-expanded={open ? "true" : undefined}
                 aria-haspopup="true"
-                endIcon={<KeyboardArrowDown />}
+                // endIcon={<KeyboardArrowDown />}
                 onClick={handleClick}
                 sx={{ fontSize: { xs: "12px", sm: "14px" } }}
               >
                 Dinner
               </Button>
+              <Button
+                color="inherit"
+                id="signOut"
+                onClick={handleSignOut}
+                sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+              >
+                Sign Out
+              </Button>
+              <AlertDialog
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+              />
             </Stack>
           ) : (
             <Button color="inherit" size="large" href="./signIn">
@@ -152,6 +145,5 @@ export default function Navbar() {
         />
       </Toolbar>
     </AppBar>
-    // </ThemeProvider>
   );
 }
