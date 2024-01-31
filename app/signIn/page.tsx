@@ -10,9 +10,12 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRef } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useMediaQuery } from "@mui/material";
 
 type Props = {
   className?: string;
@@ -22,14 +25,13 @@ type Props = {
 
 export default function SignIn(props: Props) {
   const router = useRouter();
+  const isDark = useMediaQuery("(prefers-color-scheme: dark");
 
   let userName = "";
   let pass = "";
   // refs to Clear Input Fields after Signing in
   let userInput = useRef<HTMLInputElement>(null);
   let passInput = useRef<HTMLInputElement>(null);
-
-  let [unAuth, setUnAuth] = useState<boolean | string>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (userInput && userInput.current) userInput.current.value = "";
@@ -42,10 +44,8 @@ export default function SignIn(props: Props) {
       redirect: false,
     }).then((res) => {
       if (res?.error) {
-        // toast.error("User and Pass are wrong");
-        setUnAuth("User and Pass are wrong");
+        toast.error("User and Pass are wrong");
       } else {
-        setUnAuth(false);
         router.push(props.callbackUrl ?? "/", { scroll: false });
       }
     });
@@ -55,7 +55,7 @@ export default function SignIn(props: Props) {
     <Container
       component="main"
       maxWidth="xs"
-      sx={{ height: "calc(100vh - 64px)" }}
+      sx={{ minHeight: "calc(100svh - 64px)" }}
     >
       <Box
         sx={{
@@ -108,6 +108,11 @@ export default function SignIn(props: Props) {
           </Button>
         </Box>
       </Box>
+      <ToastContainer
+        hideProgressBar
+        draggable={false}
+        theme={isDark ? "dark" : "light"}
+      ></ToastContainer>
     </Container>
   );
 }

@@ -3,22 +3,31 @@
 import {
   AppBar,
   Button,
+  Icon,
   IconButton,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { useEffect, useState } from "react";
-import { KeyboardArrowDown } from "@mui/icons-material";
+// import { KeyboardArrowDown } from "@mui/icons-material";
 import NavMenu from "./NavMenu";
-import { signOut, useSession } from "next-auth/react";
-
 import { useRouter } from "next/navigation";
 import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { GiDinosaurRex } from "react-icons/gi";
+import { FaHeart } from "react-icons/fa";
+import { GiStrawberry } from "react-icons/gi";
 
-export default function Navbar({ session }: { session: Session | null }) {
+export default function Navbar({
+  session,
+  children,
+}: {
+  session: Session | null;
+  children: React.ReactNode;
+}) {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -40,6 +49,36 @@ export default function Navbar({ session }: { session: Session | null }) {
     dinner: ["labnah", "Zaatar"],
   };
 
+  useEffect(() => {
+    switch (session?.user?.name) {
+      case "Ashraf":
+        toast.error("الديناصور وصل يا معلمة", {
+          icon: <GiDinosaurRex />,
+        });
+        break;
+      case "Shekmo":
+        toast.error("اوعي تنسي معاد الثمرة", {
+          icon: <GiDinosaurRex />,
+        });
+        break;
+      case "Yaser":
+        toast.error("كيلو فراولة هنا بسرعه", {
+          icon: <GiStrawberry color="red" />,
+        });
+        break;
+      case "Maher":
+        toast.error("منور يا مودي مودي", {
+          icon: <FaHeart color="red" />,
+        });
+        break;
+      case "Abood":
+        toast.error("فوارغ هنا بسرعة", {
+          icon: <GiDinosaurRex />,
+        });
+        break;
+    }
+  }, [session?.user?.name]);
+
   return (
     <AppBar sx={{ bgcolor: "primary.dark" }}>
       <Toolbar>
@@ -60,9 +99,9 @@ export default function Navbar({ session }: { session: Session | null }) {
               },
             }}
           >
-            <FastfoodIcon />
+            {children}
             <Typography sx={{ fontSize: { xs: "12px", sm: "16px" } }}>
-              Hungry {session && session.user ? session?.user.name : "Ashraf"}
+              {session && session.user ? session?.user.name : "Hungry Ashraf"}
             </Typography>
           </IconButton>
           {session && session.user ? (
@@ -117,9 +156,11 @@ export default function Navbar({ session }: { session: Session | null }) {
               />
             </Stack>
           ) : (
-            <Button color="inherit" size="large" href="./signIn">
-              Login
-            </Button>
+            <>
+              <Button color="inherit" size="large" href="./signIn">
+                Login
+              </Button>
+            </>
           )}
         </Stack>
         <NavMenu
@@ -144,6 +185,12 @@ export default function Navbar({ session }: { session: Session | null }) {
           foodList={foodList.dinner}
         />
       </Toolbar>
+      <ToastContainer
+        hideProgressBar
+        draggable={false}
+        theme={"dark"}
+        position="bottom-center"
+      ></ToastContainer>
     </AppBar>
   );
 }
