@@ -4,9 +4,12 @@ import {
   AppBar,
   Button,
   IconButton,
+  Menu,
+  MenuItem,
   Stack,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 // import { KeyboardArrowDown } from "@mui/icons-material";
@@ -15,6 +18,10 @@ import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
+import { GrSystem } from "react-icons/gr";
+import { MdOutlineWbSunny, MdOutlineDarkMode } from "react-icons/md";
 
 export default function Navbar({
   session,
@@ -28,11 +35,13 @@ export default function Navbar({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
+  const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
+  const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
+  let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  const router = useRouter();
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const handleSignOut = () => {
@@ -77,44 +86,34 @@ export default function Navbar({
               {session && session.user ? session?.user.name : "Hungry Ashraf"}
             </Typography>
           </IconButton>
-          {session && session.user ? (
-            <Stack direction="row">
-              <Button
-                color="inherit"
-                id="breakfast"
-                aria-controls={open ? "breakfast" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                // endIcon={<KeyboardArrowDown />}
-                onClick={handleClick}
-                sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-              >
-                Breakfast
-              </Button>
-              <Button
-                color="inherit"
-                id="launch"
-                aria-controls={open ? "launch" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                // endIcon={<KeyboardArrowDown />}
-                onClick={handleClick}
-                sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-              >
-                Launch
-              </Button>
-              <Button
-                color="inherit"
-                id="dinner"
-                aria-controls={open ? "dinner" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                // endIcon={<KeyboardArrowDown />}
-                onClick={handleClick}
-                sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-              >
-                Dinner
-              </Button>
+
+          <Stack direction="row">
+            <Button
+              color="inherit"
+              id="random-meal"
+              aria-controls={open ? "breakfast" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+            >
+              Random Meal
+            </Button>
+            <Button
+              color="inherit"
+              id="theme"
+              aria-controls={open ? "dinner" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+              sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+            >
+              Theme
+            </Button>
+            <AlertDialog
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+            />
+            {session && session.user ? (
               <Button
                 color="inherit"
                 id="signOut"
@@ -123,40 +122,64 @@ export default function Navbar({
               >
                 Sign Out
               </Button>
-              <AlertDialog
-                openDialog={openDialog}
-                setOpenDialog={setOpenDialog}
-              />
-            </Stack>
-          ) : (
-            <>
+            ) : (
               <Button color="inherit" size="large" href="./signIn">
                 Login
               </Button>
-            </>
-          )}
+            )}
+          </Stack>
         </Stack>
-        <NavMenu
-          id="breakfast"
+        <Menu
+          id="theme"
           anchorEl={anchorEl}
-          open={open && anchorEl?.id === "breakfast"}
-          onClose={handleClose}
-          foodList={foodList.breakfast}
-        />
-        <NavMenu
-          id="launch"
-          anchorEl={anchorEl}
-          open={open && anchorEl?.id === "launch"}
-          onClose={handleClose}
-          foodList={foodList.launch}
-        />
-        <NavMenu
-          id="dinner"
-          anchorEl={anchorEl}
-          open={open && anchorEl?.id === "dinner"}
-          onClose={handleClose}
-          foodList={foodList.dinner}
-        />
+          open={open}
+          onClose={() => {
+            setAnchorEl(null);
+          }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
+          MenuListProps={{ "aria-labelledby": "breakfast" }}
+        >
+          <MenuItem
+            onClick={() => {
+              setCookieTheme("theme-preference", "dark");
+              setSystemCookie("system-theme", "no");
+              setAnchorEl(null);
+              router.refresh();
+            }}
+            key="dark-theme"
+            sx={{ width: "105px", justifyContent: "space-between" }}
+          >
+            <MdOutlineDarkMode /> <span>Dark</span>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setCookieTheme("theme-preference", "light");
+              setSystemCookie("system-theme", "no");
+              setAnchorEl(null);
+              router.refresh();
+            }}
+            key="light-theme"
+            sx={{ width: "105px", justifyContent: "space-between" }}
+          >
+            <MdOutlineWbSunny /> <span>Light</span>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setSystemCookie("system-theme", "yes");
+              setCookieTheme(
+                "theme-preference",
+                systemTheme ? "dark" : "light"
+              );
+              setAnchorEl(null);
+              router.refresh();
+            }}
+            key="system-theme"
+            sx={{ width: "105px", justifyContent: "space-between" }}
+          >
+            <GrSystem /> <span>System</span>
+          </MenuItem>
+        </Menu>
       </Toolbar>
       <ToastContainer
         hideProgressBar

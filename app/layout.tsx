@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "../components/Providers";
 import { cookies } from "next/headers";
+import { CssBaseline } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default async function RootLayout({
         <Providers
           cookieTheme={cookies().get("theme-preference")?.value || "dark"}
         >
+          <CssBaseline />
           {children}
         </Providers>
       </body>

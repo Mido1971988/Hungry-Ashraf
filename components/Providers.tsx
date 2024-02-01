@@ -7,7 +7,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
 } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
+import { CssBaseline, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
 
@@ -31,8 +31,10 @@ const darkTheme = createTheme({
 const Providers = ({ children, cookieTheme }: Props) => {
   const router = useRouter();
   const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
+  const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
   useEffect(() => {
+    if (systemCookie["system-theme"] === "no") return;
     setCookieTheme("theme-preference", systemTheme ? "dark" : "light");
     router.refresh();
   }, [systemTheme]);
