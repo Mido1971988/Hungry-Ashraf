@@ -1,8 +1,7 @@
 [
-  { "id": "1", "name": "Admin", "password": "1" },
-  { "id": "2", "name": "Shekmo", "password": "2" },
-  { "id": "3", "name": "Abood", "password": "3" },
-  { "id": "4", "name": "Yaser", "password": "4" },
-  { "id": "5", "name": "Maher", "password": "5" },
-  { "id": "6", "name": "Ashraf", "password": "6" }
+  { "id": "1", "name": "Shekmo", "password": "1" },
+  { "id": "2", "name": "Abood", "password": "2" },
+  { "id": "3", "name": "Yaser", "password": "3" },
+  { "id": "4", "name": "Maher", "password": "4" },
+  { "id": "5", "name": "Ashraf", "password": "5" }
 ]

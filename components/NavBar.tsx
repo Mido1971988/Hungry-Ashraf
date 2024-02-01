@@ -3,7 +3,6 @@
 import {
   AppBar,
   Button,
-  Icon,
   IconButton,
   Stack,
   Toolbar,
@@ -12,23 +11,20 @@ import {
 import { useEffect, useState } from "react";
 // import { KeyboardArrowDown } from "@mui/icons-material";
 import NavMenu from "./NavMenu";
-import { useRouter } from "next/navigation";
 import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GiDinosaurRex } from "react-icons/gi";
-import { FaHeart } from "react-icons/fa";
-import { GiStrawberry } from "react-icons/gi";
 
 export default function Navbar({
   session,
+  cookieTheme,
   children,
 }: {
   session: Session | null;
-  children: React.ReactNode;
+  cookieTheme: string;
+  children: React.ReactElement[];
 }) {
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
@@ -50,34 +46,11 @@ export default function Navbar({
   };
 
   useEffect(() => {
-    switch (session?.user?.name) {
-      case "Ashraf":
-        toast.error("الديناصور وصل يا معلمة", {
-          icon: <GiDinosaurRex />,
-        });
-        break;
-      case "Shekmo":
-        toast.error("اوعي تنسي معاد الثمرة", {
-          icon: <GiDinosaurRex />,
-        });
-        break;
-      case "Yaser":
-        toast.error("كيلو فراولة هنا بسرعه", {
-          icon: <GiStrawberry color="red" />,
-        });
-        break;
-      case "Maher":
-        toast.error("منور يا مودي مودي", {
-          icon: <FaHeart color="red" />,
-        });
-        break;
-      case "Abood":
-        toast.error("فوارغ هنا بسرعة", {
-          icon: <GiDinosaurRex />,
-        });
-        break;
-    }
-  }, [session?.user?.name]);
+    if (session?.user?.name === undefined) return;
+    toast.error(children[1].props.id, {
+      icon: children[1],
+    });
+  }, []);
 
   return (
     <AppBar sx={{ bgcolor: "primary.dark" }}>
@@ -99,7 +72,7 @@ export default function Navbar({
               },
             }}
           >
-            {children}
+            {children[0]}
             <Typography sx={{ fontSize: { xs: "12px", sm: "16px" } }}>
               {session && session.user ? session?.user.name : "Hungry Ashraf"}
             </Typography>
@@ -188,8 +161,9 @@ export default function Navbar({
       <ToastContainer
         hideProgressBar
         draggable={false}
-        theme={"dark"}
+        theme={cookieTheme}
         position="bottom-center"
+        style={{ textAlign: "center" }}
       ></ToastContainer>
     </AppBar>
   );

@@ -7,7 +7,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
 } from "@mui/material/styles";
-import { CssBaseline, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
 
