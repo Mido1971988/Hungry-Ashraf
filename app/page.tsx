@@ -8,6 +8,8 @@ import { MdFastfood } from "react-icons/md";
 import { GiDinosaurRex } from "react-icons/gi";
 import { FaHeart } from "react-icons/fa";
 import { cookies } from "next/headers";
+import Footer from "@/components/Footer";
+import Container from "@mui/material/Container";
 
 export default async function Home() {
   const session = await getServerSession(options);
@@ -54,7 +56,7 @@ export default async function Home() {
   }
 
   return (
-    <>
+    <Container sx={{ minHeight: "100svh" }}>
       <Navbar
         session={session}
         cookieTheme={cookies().get("theme-preference")?.value || "dark"}
@@ -62,6 +64,7 @@ export default async function Home() {
         <DynamicIcon />
         <ToastIcon id={ToastTxt} color={ToastColor} />
       </Navbar>
-    </>
+      <Footer />
+    </Container>
   );
 }

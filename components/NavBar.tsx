@@ -82,22 +82,34 @@ export default function Navbar({
             }}
           >
             {children[0]}
-            <Typography sx={{ fontSize: { xs: "12px", sm: "16px" } }}>
+            <Typography
+              sx={{
+                fontSize: { xs: "12px", sm: "14px" },
+                fontFamily: "revert-layer",
+                fontWeight: "bold",
+              }}
+            >
               {session && session.user ? session?.user.name : "Hungry Ashraf"}
             </Typography>
           </IconButton>
 
           <Stack direction="row">
-            <Button
-              color="inherit"
-              id="random-meal"
-              aria-controls={open ? "breakfast" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-            >
-              Random Meal
-            </Button>
+            {session && session.user && (
+              <Button
+                color="inherit"
+                id="random-meal"
+                aria-controls={open ? "breakfast" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                sx={{
+                  textTransform: "uppercase",
+                  fontFamily: "revert-layer",
+                  fontWeight: "bold",
+                }}
+              >
+                Random Meal
+              </Button>
+            )}
             <Button
               color="inherit"
               id="theme"
@@ -105,7 +117,11 @@ export default function Navbar({
               aria-expanded={open ? "true" : undefined}
               aria-haspopup="true"
               onClick={handleClick}
-              sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+              sx={{
+                textTransform: "uppercase",
+                fontFamily: "revert-layer",
+                fontWeight: "bold",
+              }}
             >
               Theme
             </Button>
@@ -118,12 +134,24 @@ export default function Navbar({
                 color="inherit"
                 id="signOut"
                 onClick={handleSignOut}
-                sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+                sx={{
+                  textTransform: "uppercase",
+                  fontFamily: "revert-layer",
+                  fontWeight: "bold",
+                }}
               >
                 Sign Out
               </Button>
             ) : (
-              <Button color="inherit" size="large" href="./signIn">
+              <Button
+                color="inherit"
+                href="./signIn"
+                sx={{
+                  textTransform: "uppercase",
+                  fontFamily: "revert-layer",
+                  fontWeight: "bold",
+                }}
+              >
                 Login
               </Button>
             )}
@@ -148,9 +176,10 @@ export default function Navbar({
               router.refresh();
             }}
             key="dark-theme"
-            sx={{ width: "105px", justifyContent: "space-between" }}
+            sx={{ width: "110px" }}
           >
-            <MdOutlineDarkMode /> <span>Dark</span>
+            <MdOutlineDarkMode />{" "}
+            <span style={{ marginLeft: "10px" }}>Dark</span>
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -160,9 +189,10 @@ export default function Navbar({
               router.refresh();
             }}
             key="light-theme"
-            sx={{ width: "105px", justifyContent: "space-between" }}
+            sx={{ width: "110px" }}
           >
-            <MdOutlineWbSunny /> <span>Light</span>
+            <MdOutlineWbSunny />{" "}
+            <span style={{ marginLeft: "10px" }}>Light</span>
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -175,9 +205,9 @@ export default function Navbar({
               router.refresh();
             }}
             key="system-theme"
-            sx={{ width: "105px", justifyContent: "space-between" }}
+            sx={{ width: "110px" }}
           >
-            <GrSystem /> <span>System</span>
+            <GrSystem /> <span style={{ marginLeft: "10px" }}>System</span>
           </MenuItem>
         </Menu>
       </Toolbar>
@@ -186,7 +216,11 @@ export default function Navbar({
         draggable={false}
         theme={cookieTheme}
         position="bottom-center"
-        style={{ textAlign: "center" }}
+        style={{
+          textAlign: "center",
+          fontFamily: "revert-layer",
+          fontWeight: "bold",
+        }}
       ></ToastContainer>
     </AppBar>
   );
