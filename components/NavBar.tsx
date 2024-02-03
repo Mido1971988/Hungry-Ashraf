@@ -3,6 +3,7 @@
 import {
   AppBar,
   Button,
+  Drawer,
   IconButton,
   Menu,
   MenuItem,
@@ -22,6 +23,7 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import { GrSystem } from "react-icons/gr";
 import { MdOutlineWbSunny, MdOutlineDarkMode } from "react-icons/md";
+import MuiDrawer from "./MuiDrawer";
 
 export default function Navbar({
   session,
@@ -37,6 +39,7 @@ export default function Navbar({
   const open = Boolean(anchorEl);
   const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
   const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
+  const [openDrawer, setOpenDrawer] = useState(false);
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
   const router = useRouter();
 
@@ -80,6 +83,7 @@ export default function Navbar({
                 sm: "5px",
               },
             }}
+            onClick={() => setOpenDrawer(true)}
           >
             {children[0]}
             <Typography
@@ -98,7 +102,7 @@ export default function Navbar({
               <Button
                 color="inherit"
                 id="random-meal"
-                aria-controls={open ? "breakfast" : undefined}
+                aria-controls={open ? "random-meal" : undefined}
                 aria-expanded={open ? "true" : undefined}
                 aria-haspopup="true"
                 sx={{
@@ -113,7 +117,7 @@ export default function Navbar({
             <Button
               color="inherit"
               id="theme"
-              aria-controls={open ? "dinner" : undefined}
+              aria-controls={open ? "theme" : undefined}
               aria-expanded={open ? "true" : undefined}
               aria-haspopup="true"
               onClick={handleClick}
@@ -211,6 +215,7 @@ export default function Navbar({
           </MenuItem>
         </Menu>
       </Toolbar>
+      <MuiDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
       <ToastContainer
         hideProgressBar
         draggable={false}

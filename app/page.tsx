@@ -54,7 +54,6 @@ export default async function Home() {
       DynamicIcon = MdFastfood;
       break;
   }
-
   return (
     <Container sx={{ minHeight: "100svh" }}>
       <Navbar
