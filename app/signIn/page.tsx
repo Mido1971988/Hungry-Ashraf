@@ -4,8 +4,7 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -15,15 +14,9 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CssBaseline, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
-type Props = {
-  className?: string;
-  callbackUrl?: string;
-  error?: string;
-};
-
-export default function SignIn(props: Props) {
+export default function SignIn() {
   const router = useRouter();
   const isDark = useMediaQuery("(prefers-color-scheme: dark");
 
@@ -46,7 +39,7 @@ export default function SignIn(props: Props) {
       if (res?.error) {
         toast.error("User and Pass are wrong");
       } else {
-        router.push(props.callbackUrl ?? "/", { scroll: false });
+        router.push("/", { scroll: false });
       }
     });
   };

@@ -1,6 +1,6 @@
 import { Button, Drawer, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import coffe from "../myData/imgs/coffe.jpg";
+import coffe from "../myData/imgs/Ashraf/Coffe.jpg";
 import insta from "../myData/imgs/instagram.png";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 

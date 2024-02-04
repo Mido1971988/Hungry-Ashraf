@@ -65,7 +65,7 @@ export default function Navbar({
   }, []);
 
   return (
-    <AppBar sx={{ bgcolor: "primary.dark" }}>
+    <AppBar sx={{ bgcolor: "primary.dark", height: "64px" }}>
       <Toolbar>
         <Stack direction="row" width="100%" justifyContent="space-between">
           <IconButton

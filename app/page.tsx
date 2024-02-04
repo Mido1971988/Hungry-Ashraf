@@ -10,6 +10,8 @@ import { FaHeart } from "react-icons/fa";
 import { cookies } from "next/headers";
 import Footer from "@/components/Footer";
 import Container from "@mui/material/Container";
+import CarouselComp from "@/components/CarouselComp";
+import { Typography } from "@mui/material";
 
 export default async function Home() {
   const session = await getServerSession(options);
@@ -55,7 +57,7 @@ export default async function Home() {
       break;
   }
   return (
-    <Container sx={{ minHeight: "100svh" }}>
+    <div style={{ minHeight: "100svh" }}>
       <Navbar
         session={session}
         cookieTheme={cookies().get("theme-preference")?.value || "dark"}
@@ -63,7 +65,23 @@ export default async function Home() {
         <DynamicIcon />
         <ToastIcon id={ToastTxt} color={ToastColor} />
       </Navbar>
+      {session ? (
+        <CarouselComp />
+      ) : (
+        <Typography
+          sx={{
+            height: "calc(100svh - 114px)",
+            position: "relative",
+            top: "64px",
+            textAlign: "center",
+            lineHeight: "calc(100svh - 114px)",
+            fontSize: "30px",
+          }}
+        >
+          Sign in to Show Your Meals
+        </Typography>
+      )}
       <Footer />
-    </Container>
+    </div>
   );
 }
