@@ -13,8 +13,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-// import { KeyboardArrowDown } from "@mui/icons-material";
-import NavMenu from "./NavMenu";
 import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -24,6 +22,9 @@ import { useRouter } from "next/navigation";
 import { GrSystem } from "react-icons/gr";
 import { MdOutlineWbSunny, MdOutlineDarkMode } from "react-icons/md";
 import MuiDrawer from "./MuiDrawer";
+import { changeCookie, changeNumCookie } from "@/serverActions/actions";
+import { foodList } from "@/myData/foodList";
+import type { FoodList } from "@/myData/foodList";
 
 export default function Navbar({
   session,
@@ -39,6 +40,7 @@ export default function Navbar({
   const open = Boolean(anchorEl);
   const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
   const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
+  // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
   const [openDrawer, setOpenDrawer] = useState(false);
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
   const router = useRouter();
@@ -51,12 +53,6 @@ export default function Navbar({
     setOpenDialog(true);
   };
 
-  const foodList = {
-    breakfast: ["Egg", " Foul"],
-    launch: ["Chicken", " Meat", "Fish"],
-    dinner: ["labnah", "Zaatar"],
-  };
-
   useEffect(() => {
     if (session?.user?.name === undefined) return;
     toast.error(children[1].props.id, {
@@ -64,6 +60,17 @@ export default function Navbar({
     });
   }, []);
 
+  const regx = /(?<=media\/).*?(?=\.)/gm;
+  let randomFoodNum = "0";
+  if (session?.user?.name) {
+    randomFoodNum = Math.floor(
+      Math.random() * foodList[session?.user?.name as keyof FoodList].length
+    ).toString();
+  }
+
+  useEffect(() => {
+    changeCookie("false");
+  }, [session?.user?.name]);
   return (
     <AppBar sx={{ bgcolor: "primary.dark", height: "64px" }}>
       <Toolbar>
@@ -99,20 +106,50 @@ export default function Navbar({
 
           <Stack direction="row">
             {session && session.user && (
-              <Button
-                color="inherit"
-                id="random-meal"
-                aria-controls={open ? "random-meal" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                sx={{
-                  textTransform: "uppercase",
-                  fontFamily: "revert-layer",
-                  fontWeight: "bold",
-                }}
-              >
-                Random Meal
-              </Button>
+              <>
+                <Button
+                  color="inherit"
+                  id="random-meal"
+                  aria-controls={open ? "random-meal" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  sx={{
+                    textTransform: "uppercase",
+                    fontFamily: "revert-layer",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                    // using useCookies hook and router.refresh()
+                    // setCookieRandom("random-meal-button", "true");
+                    // router.refresh();
+
+                    // using server actions and revalidatePath("/")
+                    changeCookie("true");
+                    changeNumCookie(randomFoodNum);
+                  }}
+                >
+                  Random Meal
+                </Button>
+                <Button
+                  color="inherit"
+                  id="all-meals"
+                  aria-controls={open ? "all-meals" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  sx={{
+                    textTransform: "uppercase",
+                    fontFamily: "revert-layer",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                    // setCookieRandom("random-meal-button", "false");
+                    // router.refresh();
+                    changeCookie("false");
+                  }}
+                >
+                  All Meals
+                </Button>
+              </>
             )}
             <Button
               color="inherit"
