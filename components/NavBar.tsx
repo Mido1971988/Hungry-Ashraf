@@ -3,28 +3,28 @@
 import {
   AppBar,
   Button,
-  Drawer,
   IconButton,
-  Menu,
-  MenuItem,
   Stack,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useCookies } from "react-cookie";
-import { useRouter } from "next/navigation";
-import { GrSystem } from "react-icons/gr";
-import { MdOutlineWbSunny, MdOutlineDarkMode } from "react-icons/md";
+
 import MuiDrawer from "./MuiDrawer";
-import { changeCookie, changeNumCookie } from "@/serverActions/actions";
+import {
+  changeCookie,
+  changeNumCookie,
+  loading,
+} from "@/serverActions/actions";
 import { foodList } from "@/myData/foodList";
 import type { FoodList } from "@/myData/foodList";
+import Hamburger from "hamburger-react";
+import SideMenu from "./SideMenu";
+import { useCookies } from "react-cookie";
 
 export default function Navbar({
   session,
@@ -38,12 +38,8 @@ export default function Navbar({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const open = Boolean(anchorEl);
-  const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
-  const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
   // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
   const [openDrawer, setOpenDrawer] = useState(false);
-  let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
-  const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -71,6 +67,9 @@ export default function Navbar({
   useEffect(() => {
     changeCookie("false");
   }, [session?.user?.name]);
+
+  const [isBurgerOpen, setBurgerOpen] = useState(false);
+
   return (
     <AppBar sx={{ bgcolor: "primary.dark", height: "64px" }}>
       <Toolbar>
@@ -118,14 +117,17 @@ export default function Navbar({
                     fontFamily: "revert-layer",
                     fontWeight: "bold",
                   }}
-                  onClick={() => {
+                  onClick={async () => {
                     // using useCookies hook and router.refresh()
                     // setCookieRandom("random-meal-button", "true");
+                    // changeNumCookie(randomFoodNum);
                     // router.refresh();
 
                     // using server actions and revalidatePath("/")
                     changeCookie("true");
                     changeNumCookie(randomFoodNum);
+                    loading("true");
+                    setTimeout(() => loading("false"), 3000);
                   }}
                 >
                   Random Meal
@@ -151,21 +153,7 @@ export default function Navbar({
                 </Button>
               </>
             )}
-            <Button
-              color="inherit"
-              id="theme"
-              aria-controls={open ? "theme" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-              sx={{
-                textTransform: "uppercase",
-                fontFamily: "revert-layer",
-                fontWeight: "bold",
-              }}
-            >
-              Theme
-            </Button>
+
             <AlertDialog
               openDialog={openDialog}
               setOpenDialog={setOpenDialog}
@@ -196,61 +184,33 @@ export default function Navbar({
                 Login
               </Button>
             )}
+            <Button
+              color="inherit"
+              id="burger"
+              aria-controls={open ? "burger" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+              sx={{
+                textTransform: "uppercase",
+                fontFamily: "revert-layer",
+                fontWeight: "bold",
+              }}
+            >
+              <Hamburger
+                toggled={isBurgerOpen}
+                toggle={setBurgerOpen}
+                size={20}
+              />
+            </Button>
           </Stack>
         </Stack>
-        <Menu
-          id="theme"
+        <SideMenu
           anchorEl={anchorEl}
           open={open}
-          onClose={() => {
-            setAnchorEl(null);
-          }}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }}
-          MenuListProps={{ "aria-labelledby": "breakfast" }}
-        >
-          <MenuItem
-            onClick={() => {
-              setCookieTheme("theme-preference", "dark");
-              setSystemCookie("system-theme", "no");
-              setAnchorEl(null);
-              router.refresh();
-            }}
-            key="dark-theme"
-            sx={{ width: "110px" }}
-          >
-            <MdOutlineDarkMode />{" "}
-            <span style={{ marginLeft: "10px" }}>Dark</span>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setCookieTheme("theme-preference", "light");
-              setSystemCookie("system-theme", "no");
-              setAnchorEl(null);
-              router.refresh();
-            }}
-            key="light-theme"
-            sx={{ width: "110px" }}
-          >
-            <MdOutlineWbSunny />{" "}
-            <span style={{ marginLeft: "10px" }}>Light</span>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setSystemCookie("system-theme", "yes");
-              setCookieTheme(
-                "theme-preference",
-                systemTheme ? "dark" : "light"
-              );
-              setAnchorEl(null);
-              router.refresh();
-            }}
-            key="system-theme"
-            sx={{ width: "110px" }}
-          >
-            <GrSystem /> <span style={{ marginLeft: "10px" }}>System</span>
-          </MenuItem>
-        </Menu>
+          setAnchorEl={setAnchorEl}
+          setBurgerOpen={setBurgerOpen}
+        />
       </Toolbar>
       <MuiDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
       <ToastContainer

@@ -14,6 +14,7 @@
     "@mui/joy": "^5.0.0-beta.24",
     "@mui/material": "^5.15.6",
     "@mui/system": "^5.15.6",
+    "hamburger-react": "^2.5.0",
     "next": "14.1.0",
     "next-auth": "^4.24.5",
     "react": "^18",
@@ -21,6 +22,7 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "react-responsive-carousel": "^3.2.23",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.4"
   },
   "devDependencies": {

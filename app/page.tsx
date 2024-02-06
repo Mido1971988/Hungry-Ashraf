@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
 import { Typography } from "@mui/material";
+import Loading from "@/components/Loading";
 
 export default async function Home() {
   const session = await getServerSession(options);
@@ -68,18 +69,22 @@ export default async function Home() {
       {session ? (
         <CarouselComp />
       ) : (
-        <Typography
-          sx={{
+        <div
+          style={{
             height: "calc(100svh - 114px)",
-            position: "relative",
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: "40px",
             top: "64px",
-            textAlign: "center",
-            lineHeight: "calc(100svh - 114px)",
-            fontSize: "30px",
+            position: "relative",
           }}
         >
-          Sign in to Show Your Meals
-        </Typography>
+          <h1>Sign in to Show Your Meal....</h1>
+          {/* <Loading /> */}
+        </div>
       )}
       <Footer />
     </div>

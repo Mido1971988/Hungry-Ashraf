@@ -9,6 +9,9 @@ import { cookies } from "next/headers";
 import { changeCookie } from "@/serverActions/actions";
 import { foodList } from "@/myData/foodList";
 import type { FoodList } from "@/myData/foodList";
+import { revalidatePath } from "next/cache";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import Loading from "./Loading";
 
 export default async function CarouselComp() {
   const session = await getServerSession(options);
@@ -39,12 +42,29 @@ export default async function CarouselComp() {
       component={"section"}
     >
       {cookies().get("random-meal-button")?.value === "true" ? (
-        <Image
-          src={randomFood}
-          alt={randomFoodName}
-          style={{ width: "100%", height: "100%" }}
-          priority
-        ></Image>
+        cookies().get("random-loading")?.value === "true" ? (
+          <div
+            style={{
+              height: "calc(100svh - 114px)",
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              gap: "40px",
+            }}
+          >
+            <h1>Searhing for Best Meal for You....</h1>
+            <Loading />
+          </div>
+        ) : (
+          <Image
+            src={randomFood}
+            alt={randomFoodName}
+            style={{ width: "100%", height: "100%" }}
+            priority
+          ></Image>
+        )
       ) : (
         <Carousel
           autoPlay={false}
@@ -73,5 +93,3 @@ export default async function CarouselComp() {
     </Container>
   );
 }
-
-//foodList[logogedUser as keyof FoodList][Math.floor(Math.random() * foodList[logogedUser as keyof FoodList].length)]
