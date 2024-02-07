@@ -14,7 +14,8 @@ import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import MuiDrawer from "./MuiDrawer";
+import LeftDrawer from "./LeftDrawer";
+import RightDrawer from "./RightDrawer";
 import {
   changeCookie,
   changeNumCookie,
@@ -23,8 +24,8 @@ import {
 import { foodList } from "@/myData/foodList";
 import type { FoodList } from "@/myData/foodList";
 import Hamburger from "hamburger-react";
-import SideMenu from "./SideMenu";
 import { useCookies } from "react-cookie";
+import { IoSettingsOutline } from "react-icons/io5";
 
 export default function Navbar({
   session,
@@ -68,10 +69,10 @@ export default function Navbar({
     changeCookie("false");
   }, [session?.user?.name]);
 
-  const [isBurgerOpen, setBurgerOpen] = useState(false);
+  const [openRightDrawer, setOpenRightDrawer] = useState(false);
 
   return (
-    <AppBar sx={{ bgcolor: "primary.dark", height: "64px" }}>
+    <AppBar sx={{ bgcolor: "#043363", height: "64px", color: "#eee" }}>
       <Toolbar>
         <Stack direction="row" width="100%" justifyContent="space-between">
           <IconButton
@@ -190,29 +191,28 @@ export default function Navbar({
               aria-controls={open ? "burger" : undefined}
               aria-expanded={open ? "true" : undefined}
               aria-haspopup="true"
-              onClick={handleClick}
+              onClick={() => setOpenRightDrawer(true)}
               sx={{
                 textTransform: "uppercase",
                 fontFamily: "revert-layer",
                 fontWeight: "bold",
               }}
             >
-              <Hamburger
+              {/* <Hamburger
                 toggled={isBurgerOpen}
                 toggle={setBurgerOpen}
                 size={20}
-              />
+              /> */}
+              <IoSettingsOutline size={20} />
             </Button>
           </Stack>
         </Stack>
-        <SideMenu
-          anchorEl={anchorEl}
-          open={open}
-          setAnchorEl={setAnchorEl}
-          setBurgerOpen={setBurgerOpen}
-        />
       </Toolbar>
-      <MuiDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      <LeftDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      <RightDrawer
+        openRightDrawer={openRightDrawer}
+        setOpenRightDrawer={setOpenRightDrawer}
+      />
       <ToastContainer
         hideProgressBar
         draggable={false}

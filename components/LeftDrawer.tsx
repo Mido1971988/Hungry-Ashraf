@@ -4,7 +4,7 @@ import coffe from "../myData/imgs/Ashraf/Coffe.jpg";
 import insta from "../myData/imgs/instagram.png";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 
-export default function MuiDrawer({
+export default function LeftDrawer({
   openDrawer,
   setOpenDrawer,
 }: {

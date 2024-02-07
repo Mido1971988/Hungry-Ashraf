@@ -113,3 +113,13 @@ a {
   width: 100%;
   height: 100%;
 }
+
+.MuiTabs-flexContainer,
+.MuiButtonBase-root {
+  min-height: 40px;
+}
+
+.MuiButtonBase-root.Mui-selected {
+  background-color: #043363;
+  border: 1px solid #004c99;
+}

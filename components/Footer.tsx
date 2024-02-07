@@ -12,6 +12,8 @@ export default function Footer() {
         bottom: 0,
         left: 0,
         padding: "24px",
+        backgroundColor: "#0b0e11",
+        color: "#eee",
       }}
       component="footer"
     >

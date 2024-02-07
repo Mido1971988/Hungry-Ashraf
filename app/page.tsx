@@ -80,6 +80,10 @@ export default async function Home() {
             gap: "40px",
             top: "64px",
             position: "relative",
+            backgroundColor: "#0f1418",
+            fontFamily: "IBM Plex Sans",
+            fontWeight: "bold",
+            color: "#6c7a90",
           }}
         >
           <h1>Sign in to Show Your Meal....</h1>
