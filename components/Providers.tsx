@@ -45,10 +45,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
       ? {
           // palette values for light mode
           primary: {
-            main: "#FFFFFF",
+            main: "#1a76d2",
+            signIn: "#000000",
           },
           secondary: {
-            main: "#FFFFFF",
+            main: "#1a76d2",
           },
           divider: amber[200],
           background: {
@@ -63,11 +64,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
       : {
           // palette values for dark mode
           primary: {
-            main: "#FF0000",
-            secondary: "#42a5f5",
+            main: "#90cbfa",
+            signIn: "#FFFFFF",
           },
           secondary: {
-            main: "#42a5f5",
+            main: "#90cbfa",
           },
           divider: blueGrey[700],
           background: {
@@ -76,7 +77,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           text: {
             primary: "#6c7a90",
-            secondary: "#6c7a90",
+            secondary: "#FFFFFF",
           },
         }),
   },
@@ -87,7 +88,10 @@ const Providers = ({ children, cookieTheme }: Props) => {
   const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
   const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
-  const customTheme = createTheme(getDesignTokens(cookieTheme as PaletteMode));
+  const customTheme = React.useMemo(
+    () => createTheme(getDesignTokens(cookieTheme as PaletteMode)),
+    [cookieTheme]
+  );
   useEffect(() => {
     if (systemCookie["system-theme"] === "no") return;
     setCookieTheme("theme-preference", systemTheme ? "dark" : "light");

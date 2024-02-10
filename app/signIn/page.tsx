@@ -48,7 +48,9 @@ export default function SignIn() {
     <Container
       component="main"
       maxWidth="xs"
-      sx={{ minHeight: "calc(100svh - 64px)" }}
+      sx={{
+        minHeight: "calc(100svh - 64px)",
+      }}
     >
       <Box
         sx={{
@@ -58,10 +60,10 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "primary.secondary" }}>
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="primary.signIn">
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -75,7 +77,6 @@ export default function SignIn() {
             label="User Name"
             inputRef={userInput}
             onChange={(e) => (userName = e.target.value)}
-            color="secondary"
           />
           <TextField
             margin="normal"
@@ -87,13 +88,12 @@ export default function SignIn() {
             label="Password"
             inputRef={passInput}
             onChange={(e) => (pass = e.target.value)}
-            color="secondary"
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, backgroundColor: "primary.secondary" }}
+            sx={{ mt: 3, mb: 2 }}
           >
             Sign In
           </Button>

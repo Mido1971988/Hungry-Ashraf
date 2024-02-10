@@ -82,11 +82,12 @@ export default async function Home() {
             gap: "40px",
             top: "64px",
             position: "relative",
-            backgroundColor: "primary",
+
             fontFamily: "IBM Plex Sans",
             fontWeight: "bold",
             color: "text.primary",
           }}
+          sx={{ backgroundColor: "primary.main" }}
         >
           <h1>Sign in to Show Your Meal....</h1>
           {/* <Loading /> */}
