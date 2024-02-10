@@ -7,6 +7,7 @@ import {
   Stack,
   Toolbar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AlertDialog from "./Dialog";
@@ -26,6 +27,7 @@ import type { FoodList } from "@/myData/foodList";
 import Hamburger from "hamburger-react";
 import { useCookies } from "react-cookie";
 import { IoSettingsOutline } from "react-icons/io5";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function Navbar({
   session,
@@ -90,7 +92,13 @@ export default function Navbar({
                 sm: "5px",
               },
             }}
-            onClick={() => setOpenDrawer(true)}
+            onClick={() => {
+              if (session?.user) {
+                setOpenDrawer(true);
+              } else {
+                toast.error("Sign in to Show Profile Page");
+              }
+            }}
           >
             {children[0]}
             <Typography
@@ -198,32 +206,21 @@ export default function Navbar({
                 fontWeight: "bold",
               }}
             >
-              {/* <Hamburger
-                toggled={isBurgerOpen}
-                toggle={setBurgerOpen}
-                size={20}
-              /> */}
               <IoSettingsOutline size={20} />
             </Button>
           </Stack>
         </Stack>
       </Toolbar>
-      <LeftDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
       <RightDrawer
         openRightDrawer={openRightDrawer}
         setOpenRightDrawer={setOpenRightDrawer}
       />
-      <ToastContainer
-        hideProgressBar
-        draggable={false}
-        theme={cookieTheme}
-        position="bottom-center"
-        style={{
-          textAlign: "center",
-          fontFamily: "revert-layer",
-          fontWeight: "bold",
-        }}
-      ></ToastContainer>
+      <LeftDrawer
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+        session={session}
+        setOpenDialog={setOpenDialog}
+      />
     </AppBar>
   );
 }

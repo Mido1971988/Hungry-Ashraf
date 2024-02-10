@@ -58,7 +58,7 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: "primary.secondary" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -75,6 +75,7 @@ export default function SignIn() {
             label="User Name"
             inputRef={userInput}
             onChange={(e) => (userName = e.target.value)}
+            color="secondary"
           />
           <TextField
             margin="normal"
@@ -86,12 +87,13 @@ export default function SignIn() {
             label="Password"
             inputRef={passInput}
             onChange={(e) => (pass = e.target.value)}
+            color="secondary"
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor: "primary.secondary" }}
           >
             Sign In
           </Button>

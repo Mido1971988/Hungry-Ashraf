@@ -310,17 +310,6 @@ export default function RightDrawer({
           </Button>
         </Stack>
       </Stack>
-      <ToastContainer
-        hideProgressBar
-        draggable={false}
-        theme={cookietheme["theme-preference"]}
-        position="bottom-center"
-        style={{
-          textAlign: "center",
-          fontFamily: "revert-layer",
-          fontWeight: "bold",
-        }}
-      ></ToastContainer>
     </Drawer>
   );
 }

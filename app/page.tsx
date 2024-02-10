@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
 import { Typography } from "@mui/material";
 import Loading from "@/components/Loading";
+import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
   const session = await getServerSession(options);
@@ -57,6 +58,7 @@ export default async function Home() {
       DynamicIcon = MdFastfood;
       break;
   }
+
   return (
     <div style={{ minHeight: "100svh" }}>
       <Navbar
@@ -69,7 +71,7 @@ export default async function Home() {
       {session ? (
         <CarouselComp />
       ) : (
-        <div
+        <Container
           style={{
             height: "calc(100svh - 114px)",
             display: "flex",
@@ -80,17 +82,28 @@ export default async function Home() {
             gap: "40px",
             top: "64px",
             position: "relative",
-            backgroundColor: "#0f1418",
+            backgroundColor: "primary",
             fontFamily: "IBM Plex Sans",
             fontWeight: "bold",
-            color: "#6c7a90",
+            color: "text.primary",
           }}
         >
           <h1>Sign in to Show Your Meal....</h1>
           {/* <Loading /> */}
-        </div>
+        </Container>
       )}
       <Footer />
+      <ToastContainer
+        hideProgressBar
+        draggable={false}
+        theme={cookies().get("theme-preference")?.value || "dark"}
+        position="bottom-center"
+        style={{
+          textAlign: "center",
+          fontFamily: "revert-layer",
+          fontWeight: "bold",
+        }}
+      ></ToastContainer>
     </div>
   );
 }
