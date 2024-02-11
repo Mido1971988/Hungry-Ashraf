@@ -43,7 +43,7 @@ export default async function CarouselComp() {
     >
       {cookies().get("random-meal-button")?.value === "true" ? (
         cookies().get("random-loading")?.value === "true" ? (
-          <div
+          <Container
             style={{
               height: "calc(100svh - 114px)",
               display: "flex",
@@ -53,10 +53,11 @@ export default async function CarouselComp() {
               flexDirection: "column",
               gap: "40px",
             }}
+            sx={{ fontSize: { xs: "12px", sm: "16px" } }}
           >
             <h1>Searhing for Best Meal for You....</h1>
             <Loading />
-          </div>
+          </Container>
         ) : (
           <Image
             src={randomFood}

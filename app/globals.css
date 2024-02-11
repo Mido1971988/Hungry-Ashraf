@@ -100,12 +100,6 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
 .carousel-root,
 .carousel-slider,
 .slider-wrapper,
@@ -120,6 +114,20 @@ a {
 }
 
 .MuiButtonBase-root.Mui-selected {
-  background-color: #043363;
   border: 1px solid #004c99;
+}
+
+.MuiDrawer-paperAnchorRight {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.MuiDrawer-paperAnchorLeft {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }

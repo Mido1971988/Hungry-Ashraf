@@ -87,10 +87,13 @@ export default async function Home() {
             fontWeight: "bold",
             color: "text.primary",
           }}
-          sx={{ backgroundColor: "primary.main" }}
+          sx={{
+            backgroundColor: "background",
+            fontSize: { xs: "12px", sm: "16px" },
+          }}
         >
           <h1>Sign in to Show Your Meal....</h1>
-          {/* <Loading /> */}
+          <Loading />
         </Container>
       )}
       <Footer />

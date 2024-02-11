@@ -1,7 +1,15 @@
 "use client";
+import { useMediaQuery } from "@mui/material";
 import React from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
 export default function Loading() {
-  return <PacmanLoader color="#42a5f5" loading={true} size={50} />;
+  const isDark = useMediaQuery("(prefers-color-scheme: dark");
+  return (
+    <PacmanLoader
+      color={isDark ? "#1566c1" : "#0c47a1"}
+      loading={true}
+      size={50}
+    />
+  );
 }

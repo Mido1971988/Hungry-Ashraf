@@ -66,14 +66,18 @@ export default function RightDrawer({
   };
 
   return (
-    <Drawer anchor="right" open={openRightDrawer}>
+    <Drawer
+      anchor="right"
+      open={openRightDrawer}
+      style={{ borderRadius: "50px" }}
+    >
       <Stack
         sx={{
           width: "350px",
           display: "flex",
           flexDirection: "column",
           gap: "10px",
-          backgroundColor: "#0f1418",
+          backgroundColor: "background.default",
           height: "100%",
         }}
       >
@@ -91,8 +95,8 @@ export default function RightDrawer({
             sx={{
               fontFamily: "Gill Sans Extrabold",
               fontWeight: "bold",
-              color: "#6c7a90",
-              fontSize: "18px",
+              color: "primary.btnTxt",
+              fontSize: "20px",
             }}
           >
             Settings
@@ -126,7 +130,7 @@ export default function RightDrawer({
           <Box
             sx={{
               width: "100%",
-              bgcolor: "background.paper",
+              bgcolor: "background.default",
             }}
           >
             <Tabs
@@ -136,7 +140,18 @@ export default function RightDrawer({
               TabIndicatorProps={{
                 style: { display: "none" },
               }}
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                "& .MuiButtonBase-root.Mui-selected": {
+                  backgroundColor:
+                    cookietheme["theme-preference"] === "dark"
+                      ? "#043363"
+                      : "#ecf6ff",
+                },
+                "& .MuiTabs-scroller": {
+                  backgroundColor: "background.default",
+                },
+              }}
             >
               <Tab
                 icon={<MdOutlineDarkMode size={15} />}
@@ -216,7 +231,18 @@ export default function RightDrawer({
               TabIndicatorProps={{
                 style: { display: "none" },
               }}
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                "& .MuiButtonBase-root.Mui-selected": {
+                  backgroundColor:
+                    cookietheme["theme-preference"] === "dark"
+                      ? "#043363"
+                      : "#ecf6ff",
+                },
+                "& .MuiTabs-scroller": {
+                  backgroundColor: "background.default",
+                },
+              }}
             >
               <Tab
                 iconPosition="start"
@@ -284,16 +310,22 @@ export default function RightDrawer({
             maxRows={3}
             style={{
               height: "100px",
-              backgroundColor: "#b1bed3",
+              backgroundColor:
+                cookietheme["theme-preference"] === "dark"
+                  ? "#b1bed3"
+                  : "#ecf6ff",
+              border: "1px solid #b1bed3",
               borderRadius: "5px",
               color: "black",
+              resize: "none",
+              outline: "none",
             }}
             ref={textRef}
           />
           <Button
             sx={{
               border: "1px solid #313741",
-              color: "white",
+              color: "primary.btnTxt",
               fontFamily: "IBM Plex Sans",
               fontWeight: "bold",
             }}

@@ -74,7 +74,14 @@ export default function Navbar({
   const [openRightDrawer, setOpenRightDrawer] = useState(false);
 
   return (
-    <AppBar sx={{ bgcolor: "#043363", height: "64px", color: "#eee" }}>
+    <AppBar
+      sx={{
+        bgcolor: "#043363",
+        height: "64px",
+        color: "#eee",
+        backgroundColor: "primary.main",
+      }}
+    >
       <Toolbar>
         <Stack direction="row" width="100%" justifyContent="space-between">
           <IconButton
@@ -113,7 +120,7 @@ export default function Navbar({
           </IconButton>
 
           <Stack direction="row">
-            {session && session.user && (
+            {session && session.user ? (
               <>
                 <Button
                   color="inherit"
@@ -122,7 +129,7 @@ export default function Navbar({
                   aria-expanded={open ? "true" : undefined}
                   aria-haspopup="true"
                   sx={{
-                    textTransform: "uppercase",
+                    textTransform: "none",
                     fontFamily: "revert-layer",
                     fontWeight: "bold",
                   }}
@@ -148,7 +155,7 @@ export default function Navbar({
                   aria-expanded={open ? "true" : undefined}
                   aria-haspopup="true"
                   sx={{
-                    textTransform: "uppercase",
+                    textTransform: "none",
                     fontFamily: "revert-layer",
                     fontWeight: "bold",
                   }}
@@ -161,25 +168,6 @@ export default function Navbar({
                   All Meals
                 </Button>
               </>
-            )}
-
-            <AlertDialog
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-            />
-            {session && session.user ? (
-              <Button
-                color="inherit"
-                id="signOut"
-                onClick={handleSignOut}
-                sx={{
-                  textTransform: "uppercase",
-                  fontFamily: "revert-layer",
-                  fontWeight: "bold",
-                }}
-              >
-                Sign Out
-              </Button>
             ) : (
               <Button
                 color="inherit"
@@ -193,6 +181,10 @@ export default function Navbar({
                 Login
               </Button>
             )}
+            <AlertDialog
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+            />
             <Button
               color="inherit"
               id="burger"

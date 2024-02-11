@@ -1,4 +1,4 @@
-import { Button, Drawer, Stack, Typography } from "@mui/material";
+import { Button, Drawer, Link, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Ashraf from "../myData/imgs/ProfilePics/Ashraf.jpg";
 import Abood from "../myData/imgs/ProfilePics/Abood.jpg";
@@ -6,7 +6,7 @@ import Maher from "../myData/imgs/ProfilePics/Maher.jpg";
 import Yaser from "../myData/imgs/ProfilePics/Yaser.jpg";
 import Shekmo from "../myData/imgs/ProfilePics/Shekmo.jpg";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
-import { FaSquareTwitter } from "react-icons/fa6";
+import { FaS, FaSquareTwitter } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Container } from "@mui/system";
 import { FoodList, foodList } from "@/myData/foodList";
@@ -83,7 +83,8 @@ export default function LeftDrawer({
           pic: Ashraf,
           pName: "Ashraf Al Hadidy",
           pDate: "1/9/1986",
-          Pdescription: "",
+          Pdescription:
+            " إنسان بوهيمي يأكل ما يحلو له والي ما لا يحلو له كمان مفيش مشكلة",
           facebook: "https://www.facebook.com/eshesh.ahlawy",
           instagram: "https://www.instagram.com/ashraf_elhadidy/",
         };
@@ -98,7 +99,12 @@ export default function LeftDrawer({
         width={"220px"}
         height={"100%"}
         bgcolor={"#0f1418"}
-        sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          backgroundColor: "background.default",
+        }}
       >
         <Container
           sx={{
@@ -119,7 +125,7 @@ export default function LeftDrawer({
         <Typography
           fontWeight={"bold"}
           textAlign={"center"}
-          sx={{ color: "#6c7a90", fontFamily: "IBM Plex Sans" }}
+          sx={{ color: "primary.main", fontFamily: "IBM Plex Sans" }}
         >
           {profileObj.pName} <IoCheckmarkCircle color="#7ac141" />
         </Typography>
@@ -131,17 +137,24 @@ export default function LeftDrawer({
             borderBottom: "1px solid #6c7a90",
           }}
         >
-          <Typography sx={{ fontFamily: "IBM Plex Sans" }}>
+          <Typography
+            sx={{ fontFamily: "IBM Plex Sans", color: "primary.btnTxt" }}
+          >
             {" "}
             {numOfFood} Photos
           </Typography>
-          <Typography sx={{ fontFamily: "IBM Plex Sans" }}>0 Videos</Typography>
+          <Typography
+            sx={{ fontFamily: "IBM Plex Sans", color: "primary.btnTxt" }}
+          >
+            0 Videos
+          </Typography>
         </Container>
         <Typography
           textAlign={"center"}
           sx={{
-            color: "#c8c8c8",
+            color: "primary.btnTxt",
             fontFamily: "IBM Plex Sans",
+            fontWeight: "1200",
             marginTop: "auto",
             display: "flex",
             flexDirection: "column",
@@ -163,19 +176,29 @@ export default function LeftDrawer({
             height: "70px",
             width: "100%",
             marginTop: "auto",
+            marginBottom: "30px",
           }}
         >
-          <a target="_blank" href={profileObj.facebook}>
-            <FaFacebook size={30} color="#6c7a90" />
-          </a>
-          <FaSquareTwitter
-            size={30}
-            color="#6c7a90"
-            onClick={() => toast.error("معندوش تويتر")}
-          />
-          <a href={profileObj.instagram} target="_blank">
-            <FaInstagramSquare size={30} color="#6c7a90" />
-          </a>
+          <Link
+            target="_blank"
+            href={profileObj.facebook}
+            style={{ color: "primary.main" }}
+          >
+            <FaFacebook size={40} />
+          </Link>
+          <Link style={{ color: "primary.main" }}>
+            <FaSquareTwitter
+              size={40}
+              onClick={() => toast.error("معندوش تويتر")}
+            />
+          </Link>
+          <Link
+            href={profileObj.instagram}
+            target="_blank"
+            style={{ color: "primary.main" }}
+          >
+            <FaInstagramSquare size={40} />
+          </Link>
         </Stack>
       </Stack>
       <Button
@@ -189,9 +212,14 @@ export default function LeftDrawer({
           textTransform: "uppercase",
           fontFamily: "revert-layer",
           fontWeight: "bold",
-          color: "#c8c8c8",
-          backgroundColor: "#6c7a90",
+          color: "white",
+          backgroundColor: "primary.main",
+          borderRadius: "0px",
+          "&:hover": {
+            backgroundColor: "primary.main",
+          },
         }}
+        style={{ height: "50px" }}
       >
         sign out
       </Button>

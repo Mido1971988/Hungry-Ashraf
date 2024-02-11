@@ -45,32 +45,33 @@ const getDesignTokens = (mode: PaletteMode) => ({
       ? {
           // palette values for light mode
           primary: {
-            main: "#1a76d2",
-            signIn: "#000000",
+            main: "#0c47a1",
+            btnTxt: "#000000",
+            footer: "#131313f5",
           },
           secondary: {
             main: "#1a76d2",
           },
-          divider: amber[200],
           background: {
-            default: "white",
+            default: "#FFFFFF",
             paper: "white",
           },
           text: {
             primary: "#000000",
             secondary: "#000000",
+            navBar: "#FFFFFF",
           },
         }
       : {
           // palette values for dark mode
           primary: {
-            main: "#90cbfa",
-            signIn: "#FFFFFF",
+            main: "#1566c1",
+            btnTxt: "#eee",
+            footer: "#0b0e11",
           },
           secondary: {
             main: "#90cbfa",
           },
-          divider: blueGrey[700],
           background: {
             default: "#0f1418",
             paper: "#0f1418",

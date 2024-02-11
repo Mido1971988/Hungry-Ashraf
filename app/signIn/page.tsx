@@ -9,12 +9,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useMediaQuery } from "@mui/material";
+import RightDrawer from "@/components/RightDrawer";
+import { IoSettingsOutline } from "react-icons/io5";
+import { style } from "@mui/system";
 
 export default function SignIn() {
   const router = useRouter();
@@ -44,6 +47,7 @@ export default function SignIn() {
     });
   };
 
+  const [openRightDrawer, setOpenRightDrawer] = useState(false);
   return (
     <Container
       component="main"
@@ -52,6 +56,28 @@ export default function SignIn() {
         minHeight: "calc(100svh - 64px)",
       }}
     >
+      <RightDrawer
+        openRightDrawer={openRightDrawer}
+        setOpenRightDrawer={setOpenRightDrawer}
+      />
+      <Button
+        color="inherit"
+        id="burger"
+        aria-controls={openRightDrawer ? "burger" : undefined}
+        aria-expanded={openRightDrawer ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={() => setOpenRightDrawer(true)}
+        sx={{
+          textTransform: "uppercase",
+          fontFamily: "revert-layer",
+          fontWeight: "bold",
+          position: "absolute",
+          top: "0",
+          right: "0",
+        }}
+      >
+        <IoSettingsOutline size={20} />
+      </Button>
       <Box
         sx={{
           marginTop: 8,
@@ -63,7 +89,7 @@ export default function SignIn() {
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5" color="primary.signIn">
+        <Typography component="h1" variant="h5" color="primary.btnTxt">
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -77,6 +103,11 @@ export default function SignIn() {
             label="User Name"
             inputRef={userInput}
             onChange={(e) => (userName = e.target.value)}
+            sx={{
+              "& .MuiInputBase-input": {
+                color: "primary.btnTxt",
+              },
+            }}
           />
           <TextField
             margin="normal"
@@ -88,6 +119,11 @@ export default function SignIn() {
             label="Password"
             inputRef={passInput}
             onChange={(e) => (pass = e.target.value)}
+            sx={{
+              "& .MuiInputBase-input": {
+                color: "primary.btnTxt",
+              },
+            }}
           />
           <Button
             type="submit"
@@ -103,6 +139,7 @@ export default function SignIn() {
         hideProgressBar
         draggable={false}
         theme={isDark ? "dark" : "light"}
+        position="bottom-center"
       ></ToastContainer>
     </Container>
   );
