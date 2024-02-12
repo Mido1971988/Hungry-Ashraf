@@ -4,4 +4,4 @@ const nextConfig = {
   basePath: "/Hungry-Ashraf",
 };
 
-export default nextConfig;
+module.exports = nextConfig;
