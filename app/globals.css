@@ -110,7 +110,7 @@ a {
 
 .MuiTabs-flexContainer,
 .MuiButtonBase-root {
-  min-height: 40px;
+  min-height: 40px !important;
 }
 
 .MuiButtonBase-root.Mui-selected {
