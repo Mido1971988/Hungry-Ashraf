@@ -57,7 +57,8 @@ export default function Navbar({
         icon: children[1],
       });
     }
-  }, [session?.user?.name, children]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const regx = /(?<=media\/).*?(?=\.)/gm;
   let randomFoodNum = "0";
