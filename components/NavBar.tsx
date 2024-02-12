@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AlertDialog from "./Dialog";
 import { Session } from "next-auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -39,6 +39,8 @@ export default function Navbar({
   const open = Boolean(anchorEl);
   // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const initialRenderRef = useRef(true);
+  console.log(initialRenderRef.current);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -50,10 +52,13 @@ export default function Navbar({
 
   useEffect(() => {
     if (session?.user?.name === undefined) return;
-    toast.error(children[1].props.id, {
-      icon: children[1],
-    });
-  }, []);
+    if (initialRenderRef) {
+      initialRenderRef.current = false;
+      toast.error(children[1].props.id, {
+        icon: children[1],
+      });
+    }
+  }, [session?.user?.name, children]);
 
   const regx = /(?<=media\/).*?(?=\.)/gm;
   let randomFoodNum = "0";

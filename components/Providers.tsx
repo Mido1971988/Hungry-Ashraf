@@ -20,6 +20,7 @@ import {
   red,
   yellow,
 } from "@mui/material/colors/";
+import { changeThemeCookie } from "../serverActions/actions";
 
 interface Props {
   children: ReactNode;
@@ -95,9 +96,8 @@ const Providers = ({ children, cookieTheme }: Props) => {
   );
   useEffect(() => {
     if (systemCookie["system-theme"] === "no") return;
-    setCookieTheme("theme-preference", systemTheme ? "dark" : "light");
-    router.refresh();
-  }, [systemTheme]);
+    changeThemeCookie(systemTheme ? "dark" : "light");
+  }, [systemTheme, systemCookie]);
 
   return (
     // <MuiThemeProvider theme={cookieTheme === "dark" ? darkTheme : lightTheme}>

@@ -26,9 +26,13 @@ export default async function CarouselComp() {
         ? Number(cookies().get("random-meal-num")?.value)
         : 0
     ];
+
   const randomFoodName = (foodList[logogedUser as keyof FoodList][
     cookies().get("random-meal-num")?.value
-      ? Number(cookies().get("random-meal-num")?.value)
+      ? Number(cookies().get("random-meal-num")?.value) <
+        foodList[logogedUser as keyof FoodList].length
+        ? Number(cookies().get("random-meal-num")?.value)
+        : 0
       : 0
   ].src.match(regx) || ["no-match"])[0];
 

@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { promises as fs } from "fs";
+import listOfUsers from "../../../../myData/listOfUsers.json";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -29,7 +30,7 @@ export const options: NextAuthOptions = {
           // const userList = await response.json();
 
           const file = await fs.readFile(
-            process.cwd() + "../../../myData/listOfUsers.json",
+            process.cwd() + "/myData/listOfUsers.json",
             "utf8"
           );
           const userList = JSON.parse(file);
