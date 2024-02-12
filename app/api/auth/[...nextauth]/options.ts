@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { promises as fs } from "fs";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -24,8 +25,14 @@ export const options: NextAuthOptions = {
           if (!credentials || !credentials.username || !credentials.password)
             return null;
 
-          const response = await fetch("http://localhost:3000/api/listOfUsers");
-          const userList = await response.json();
+          // const response = await fetch("http://localhost:3000/api/listOfUsers");
+          // const userList = await response.json();
+
+          const file = await fs.readFile(
+            process.cwd() + "/myData/listOfUsers.json",
+            "utf8"
+          );
+          const userList = JSON.parse(file);
 
           let user = userList.filter(
             (oneUser: { id: string; name: string; password: string }) => {
