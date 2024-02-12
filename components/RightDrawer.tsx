@@ -1,5 +1,5 @@
 "use client";
-import { changeThemeCookie, systemThemeCookie } from "@/serverActions/actions";
+import { changeThemeCookie, systemThemeCookie } from "../serverActions/actions";
 import {
   Box,
   Button,

@@ -1,4 +1,4 @@
-import Navbar from "@/components/NavBar";
+import Navbar from "../components/NavBar";
 import { getServerSession } from "next-auth";
 import { options } from "./api/auth/[...nextauth]/options";
 import { GiStrawberry, GiShinyApple, GiHamburger } from "react-icons/gi";
@@ -8,11 +8,11 @@ import { MdFastfood } from "react-icons/md";
 import { GiDinosaurRex } from "react-icons/gi";
 import { FaHeart } from "react-icons/fa";
 import { cookies } from "next/headers";
-import Footer from "@/components/Footer";
+import Footer from "../components/Footer";
 import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
 import { Typography } from "@mui/material";
-import Loading from "@/components/Loading";
+import Loading from "../components/Loading";
 import { ToastContainer } from "react-toastify";
 
 export default async function Home() {

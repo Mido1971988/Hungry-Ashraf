@@ -9,7 +9,7 @@ import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { FaS, FaSquareTwitter } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Container } from "@mui/system";
-import { FoodList, foodList } from "@/myData/foodList";
+import { FoodList, foodList } from "../myData/foodList";
 import { toast } from "react-toastify";
 import { Session } from "next-auth";
 

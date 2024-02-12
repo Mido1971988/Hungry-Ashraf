@@ -21,9 +21,9 @@ import {
   changeCookie,
   changeNumCookie,
   loading,
-} from "@/serverActions/actions";
-import { foodList } from "@/myData/foodList";
-import type { FoodList } from "@/myData/foodList";
+} from "../serverActions/actions";
+import { foodList } from "../myData/foodList";
+import type { FoodList } from "../myData/foodList";
 import Hamburger from "hamburger-react";
 import { useCookies } from "react-cookie";
 import { IoSettingsOutline } from "react-icons/io5";
