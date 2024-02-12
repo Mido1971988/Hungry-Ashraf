@@ -40,7 +40,6 @@ export default function Navbar({
   // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
   const [openDrawer, setOpenDrawer] = useState(false);
   const initialRenderRef = useRef(true);
-  console.log(initialRenderRef.current);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
