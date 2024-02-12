@@ -120,6 +120,7 @@ export default function LeftDrawer({
             src={profileObj.pic}
             alt="coffe"
             style={{ width: "100%", height: "100%" }}
+            priority={true}
           ></Image>
         </Container>
         <Typography
