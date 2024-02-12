@@ -7,7 +7,6 @@ import {
   Stack,
   Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AlertDialog from "./Dialog";
@@ -24,10 +23,7 @@ import {
 } from "../serverActions/actions";
 import { foodList } from "../myData/foodList";
 import type { FoodList } from "../myData/foodList";
-import Hamburger from "hamburger-react";
-import { useCookies } from "react-cookie";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function Navbar({
   session,

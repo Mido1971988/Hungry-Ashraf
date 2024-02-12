@@ -3,7 +3,7 @@ import Image from "next/image";
 import Ashraf from "../myData/imgs/ProfilePics/Ashraf.jpg";
 import Abood from "../myData/imgs/ProfilePics/Abood.jpg";
 import Maher from "../myData/imgs/ProfilePics/Maher.jpg";
-import Yaser from "../myData/imgs/ProfilePics/Yaser.jpg";
+import Yaser from "../myData/imgs/ProfilePics/Yasser.jpg";
 import Shekmo from "../myData/imgs/ProfilePics/Shekmo.jpg";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { FaS, FaSquareTwitter } from "react-icons/fa6";
