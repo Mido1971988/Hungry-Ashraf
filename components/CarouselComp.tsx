@@ -87,7 +87,11 @@ export default async function CarouselComp() {
                   style={{ width: "100%", height: "100%" }}
                   priority
                 />
-                <Typography className="legend" key={foodName[0]}>
+                <Typography
+                  className="legend"
+                  key={foodName[0]}
+                  style={{ backgroundColor: "#1566c182", fontWeight: "bold" }}
+                >
                   {foodName[0]}
                 </Typography>
               </div>

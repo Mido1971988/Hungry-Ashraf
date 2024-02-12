@@ -30,7 +30,7 @@ export default async function Home() {
       ToastTxt = "الديناصور وصل يا معلمة";
       ToastColor = "green";
       break;
-    case "Shekmo":
+    case "Soliman":
       DynamicIcon = GiShinyApple;
       ToastIcon = GiShinyApple;
       ToastTxt = "اوعي تنسي معاد الثمرة";

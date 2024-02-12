@@ -4,7 +4,7 @@ import Ashraf from "../myData/imgs/ProfilePics/Ashraf.jpg";
 import Abood from "../myData/imgs/ProfilePics/Abood.jpg";
 import Maher from "../myData/imgs/ProfilePics/Maher.jpg";
 import Yaser from "../myData/imgs/ProfilePics/Yasser.jpg";
-import Shekmo from "../myData/imgs/ProfilePics/Shekmo.jpg";
+import Soliman from "../myData/imgs/ProfilePics/Soliman.jpg";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { FaS, FaSquareTwitter } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -39,9 +39,9 @@ export default function LeftDrawer({
           facebook: "https://www.facebook.com/eshesh.ahlawy",
           instagram: "https://www.instagram.com/ashraf_elhadidy/",
         }
-      : session?.user?.name === "Shekmo"
+      : session?.user?.name === "Soliman"
       ? {
-          pic: Shekmo,
+          pic: Soliman,
           pName: "Mohamed Soliman",
           pDate: "19/7/1988",
           Pdescription:
