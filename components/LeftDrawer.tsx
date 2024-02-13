@@ -29,7 +29,7 @@ export default function LeftDrawer({
     ? foodList[session?.user?.name as keyof FoodList].length
     : 0;
 
-  // user object to use it on Profile  page
+  // user object to use it on Profile page
   const profileObj =
     session?.user?.name === "Ashraf"
       ? {

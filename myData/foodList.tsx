@@ -18,7 +18,7 @@ import fawaregh from "./imgs/Abood/Fawaregh.jpg";
 import hamam from "./imgs/Abood/Hamam.jpg";
 import waara2Enab from "./imgs/Abood/Waara2Enab.jpg";
 import brainBelZebda from "./imgs/Abood/BrainBelZebda.jpg";
-import hamam2 from "./imgs/Abood/Hamam2.jpg";
+import hamaam2 from "./imgs/Abood/Hamaam2.jpg";
 import egg from "./imgs/Soliman/Egg.jpg";
 import salmon from "./imgs/Soliman/Salmon.jpg";
 import Pizza from "./imgs/Soliman/Pizza.jpg";
@@ -57,7 +57,7 @@ export const foodList: FoodList = {
     wara2Enab3,
   ],
   Soliman: [egg, salmon, Pizza],
-  Abood: [fawaregh, hamam, waara2Enab, brainBelZebda, hamam2],
+  Abood: [fawaregh, hamam, waara2Enab, brainBelZebda, hamaam2],
   Yaser: [strawberry, chicken, shawerma],
   Maher: [burger, chicks, Pizza],
 };
