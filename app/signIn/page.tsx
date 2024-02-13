@@ -4,7 +4,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -17,11 +16,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useMediaQuery } from "@mui/material";
 import RightDrawer from "@/components/RightDrawer";
 import { IoSettingsOutline } from "react-icons/io5";
-import { style } from "@mui/system";
 
 export default function SignIn() {
+  // to push to homepage when successfully sign in
   const router = useRouter();
+  // to change theme on ToastContainer
   const isDark = useMediaQuery("(prefers-color-scheme: dark");
+  // to handle opening and closing right Drawer
+  const [openRightDrawer, setOpenRightDrawer] = useState(false);
 
   let userName = "";
   let pass = "";
@@ -30,6 +32,7 @@ export default function SignIn() {
   let passInput = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // refs to Clear Input Fields after submitting
     if (userInput && userInput.current) userInput.current.value = "";
     if (passInput && passInput.current) passInput.current.value = "";
     e.preventDefault();
@@ -47,7 +50,6 @@ export default function SignIn() {
     });
   };
 
-  const [openRightDrawer, setOpenRightDrawer] = useState(false);
   return (
     <Container
       component="main"
@@ -63,7 +65,7 @@ export default function SignIn() {
       <Button
         color="inherit"
         id="burger"
-        aria-controls={openRightDrawer ? "burger" : undefined}
+        aria-controls={openRightDrawer ? "rightDrawer" : undefined}
         aria-expanded={openRightDrawer ? "true" : undefined}
         aria-haspopup="true"
         onClick={() => setOpenRightDrawer(true)}

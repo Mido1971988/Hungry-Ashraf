@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Carousel from "./Carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Container } from "@mui/system";
@@ -6,19 +6,18 @@ import { Typography } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { options } from "../app/api/auth/[...nextauth]/options";
 import { cookies } from "next/headers";
-import { changeCookie } from "../serverActions/actions";
 import { foodList } from "../myData/foodList";
 import type { FoodList } from "../myData/foodList";
-import { revalidatePath } from "next/cache";
-import PacmanLoader from "react-spinners/PacmanLoader";
 import Loading from "./Loading";
 
 export default async function CarouselComp() {
+  // to get auth session on server
   const session = await getServerSession(options);
+  // to extract logged Username
   const logogedUser: string = session?.user?.name
     ? session?.user?.name
     : "No-User";
-
+  // regex to extract food name from file name
   const regx = /(?<=media\/).*?(?=\.)/gm;
   const randomFood =
     foodList[logogedUser as keyof FoodList][
@@ -26,7 +25,6 @@ export default async function CarouselComp() {
         ? Number(cookies().get("random-meal-num")?.value)
         : 0
     ];
-
   const randomFoodName = (foodList[logogedUser as keyof FoodList][
     cookies().get("random-meal-num")?.value
       ? Number(cookies().get("random-meal-num")?.value) <

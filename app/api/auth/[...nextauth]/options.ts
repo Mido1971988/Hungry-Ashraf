@@ -26,9 +26,11 @@ export const options: NextAuthOptions = {
           if (!credentials || !credentials.username || !credentials.password)
             return null;
 
+          // 1st option fetch from Api
           // const response = await fetch("http://localhost:3000/api/listOfUsers");
           // const userList = await response.json();
 
+          // 2nd option read file using NodeJs
           const file = await fs.readFile(
             process.cwd() + "/myData/listOfUsers.json",
             "utf8"

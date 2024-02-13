@@ -6,7 +6,7 @@ import Maher from "../myData/imgs/ProfilePics/Maher.jpg";
 import Yaser from "../myData/imgs/ProfilePics/Yasser.jpg";
 import Soliman from "../myData/imgs/ProfilePics/Soliman.jpg";
 import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
-import { FaS, FaSquareTwitter } from "react-icons/fa6";
+import { FaSquareTwitter } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Container } from "@mui/system";
 import { FoodList, foodList } from "../myData/foodList";
@@ -14,26 +14,28 @@ import { toast } from "react-toastify";
 import { Session } from "next-auth";
 
 export default function LeftDrawer({
-  openDrawer,
-  setOpenDrawer,
+  openLeftDrawer,
+  setOpenLeftDrawer,
   session,
   setOpenDialog,
 }: {
-  openDrawer: boolean;
-  setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+  openLeftDrawer: boolean;
+  setOpenLeftDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   session: Session | null;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  // to get  number of food images
   const numOfFood = foodList[session?.user?.name as keyof FoodList]
     ? foodList[session?.user?.name as keyof FoodList].length
     : 0;
 
+  // user object to use it on Profile page
   const profileObj =
     session?.user?.name === "Ashraf"
       ? {
           pic: Ashraf,
           pName: "Ashraf Al Hadidy",
-          pDate: "1/9/1986",
+          pDate: "1/9/1985",
           Pdescription:
             " إنسان بوهيمي يأكل ما يحلو له والي ما لا يحلو له كمان مفيش مشكلة",
           facebook: "https://www.facebook.com/eshesh.ahlawy",
@@ -45,7 +47,7 @@ export default function LeftDrawer({
           pName: "Mohamed Soliman",
           pDate: "19/7/1988",
           Pdescription:
-            "يأكل ثلالث وجبات في اليوم في اوقات مقدسة ومن الممكن اضافة ثمرة علي المغربية",
+            "يأكل ثلاث وجبات في اليوم في اوقات مقدسة ومن الممكن اضافة ثمرة علي المغربية",
           facebook: "https://www.facebook.com/mohammed.soliman.1088/",
           instagram: "https://www.instagram.com/mohammedsoliman88/",
         }
@@ -82,7 +84,7 @@ export default function LeftDrawer({
       : {
           pic: Ashraf,
           pName: "Ashraf Al Hadidy",
-          pDate: "1/9/1986",
+          pDate: "1/9/1985",
           Pdescription:
             " إنسان بوهيمي يأكل ما يحلو له والي ما لا يحلو له كمان مفيش مشكلة",
           facebook: "https://www.facebook.com/eshesh.ahlawy",
@@ -92,8 +94,8 @@ export default function LeftDrawer({
   return (
     <Drawer
       anchor="left"
-      open={openDrawer}
-      onClose={() => setOpenDrawer(false)}
+      open={openLeftDrawer}
+      onClose={() => setOpenLeftDrawer(false)}
     >
       <Stack
         width={"220px"}
@@ -206,7 +208,7 @@ export default function LeftDrawer({
         color="inherit"
         id="signOut"
         onClick={() => {
-          setOpenDrawer(false);
+          setOpenLeftDrawer(false);
           setOpenDialog(true);
         }}
         sx={{

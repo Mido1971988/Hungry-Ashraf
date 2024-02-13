@@ -15,7 +15,10 @@ export default function AlertDialog({
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  // to re-render server Component
   const router = useRouter();
+
+  // to handle Dialog click
   const handleCloseDialog = async (yesOrNo: boolean) => {
     setOpenDialog(false);
     if (yesOrNo) {

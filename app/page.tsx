@@ -11,11 +11,11 @@ import { cookies } from "next/headers";
 import Footer from "../components/Footer";
 import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
-import { Typography } from "@mui/material";
 import Loading from "../components/Loading";
 import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
+  // to get session of auth on server side
   const session = await getServerSession(options);
 
   let DynamicIcon = MdFastfood;
@@ -60,11 +60,9 @@ export default async function Home() {
   }
 
   return (
+    // svh suitable for both mobile and desktop
     <div style={{ minHeight: "100svh" }}>
-      <Navbar
-        session={session}
-        cookieTheme={cookies().get("theme-preference")?.value || "dark"}
-      >
+      <Navbar session={session}>
         <DynamicIcon />
         <ToastIcon id={ToastTxt} color={ToastColor} />
       </Navbar>

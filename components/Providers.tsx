@@ -7,19 +7,8 @@ import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
 } from "@mui/material/styles";
-import { CssBaseline, PaletteMode, useMediaQuery } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { PaletteMode, useMediaQuery } from "@mui/material";
 import { useCookies } from "react-cookie";
-import { ToastContainer } from "react-toastify";
-import {
-  amber,
-  blue,
-  blueGrey,
-  deepOrange,
-  grey,
-  red,
-  yellow,
-} from "@mui/material/colors/";
 import { changeThemeCookie } from "../serverActions/actions";
 
 interface Props {
@@ -27,18 +16,20 @@ interface Props {
   cookieTheme: string | undefined;
 }
 
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
+// default MUI Light Theme
+// const lightTheme = createTheme({
+//   palette: {
+//     mode: "light",
+//   },
+// });
+// default MUI Dark Theme
+// const darkTheme = createTheme({
+//   palette: {
+//     mode: "dark",
+//   },
+// });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
+// Custom Theme
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
@@ -86,14 +77,16 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 
 const Providers = ({ children, cookieTheme }: Props) => {
-  const router = useRouter();
-  const [cookieValue, setCookieTheme] = useCookies(["theme-preference"]);
+  // to get system-theme cookie to decide if you will use system or selected Theme from User
   const [systemCookie, setSystemCookie] = useCookies(["system-theme"]);
+  // to get theme of Device
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
+  // to create the Custom Theme only cookieTheme changes not on every re-render
   const customTheme = React.useMemo(
     () => createTheme(getDesignTokens(cookieTheme as PaletteMode)),
     [cookieTheme]
   );
+  // to change theme to device theme if system-theme cookie is "yes"
   useEffect(() => {
     if (systemCookie["system-theme"] === "no") return;
     changeThemeCookie(systemTheme ? "dark" : "light");

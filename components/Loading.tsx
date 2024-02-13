@@ -4,6 +4,7 @@ import React from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
 export default function Loading() {
+  // to get Theme so can change color of Loading Component depend on theme
   const isDark = useMediaQuery("(prefers-color-scheme: dark");
   return (
     <PacmanLoader

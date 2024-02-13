@@ -3,14 +3,10 @@ import { changeThemeCookie, systemThemeCookie } from "../serverActions/actions";
 import {
   Box,
   Button,
-  ButtonTypeMap,
   Drawer,
-  ExtendButtonBase,
-  Hidden,
   Stack,
   Tab,
   Tabs,
-  TextField,
   TextareaAutosize,
   Typography,
   useMediaQuery,
@@ -21,7 +17,7 @@ import { GrSystem } from "react-icons/gr";
 import { MdOutlineDarkMode, MdOutlineWbSunny } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function RightDrawer({
   openRightDrawer,
@@ -30,20 +26,24 @@ export default function RightDrawer({
   openRightDrawer: boolean;
   setOpenRightDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  // to clear text after submitting and to use them with some if conditions
   const textRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // to get themes of device , theme cookie , system-theme cookie
   let systemTheme = useMediaQuery("(prefers-color-scheme: dark)");
   const [cookietheme, setCookietheme] = useCookies(["theme-preference"]);
   const [systemThemecookie, setSystemThemecookiee] = useCookies([
     "system-theme",
   ]);
-  const [rateValue, setRateValue] = useState("perfect");
-
+  // final value will be used system them or selected theme
   const [modeValue, setModeValue] = React.useState(
     systemThemecookie["system-theme"] === "no"
       ? cookietheme["theme-preference"]
       : "system"
   );
 
+  // useState hook for Rate Tabs
+  const [rateValue, setRateValue] = useState("perfect");
   const handleRateChange = (event: React.SyntheticEvent, newValue: string) => {
     setRateValue(newValue);
     if (newValue === "perfect") {
@@ -54,6 +54,7 @@ export default function RightDrawer({
       toast.error("رايك يهمنا طبعا.. ياخبر", { icon: <FaRegTrashAlt /> });
     }
   };
+  // handle function when user click on mode tabs
   const handleModeChange = (event: React.SyntheticEvent, newValue: string) => {
     setModeValue(newValue);
     if (newValue === "system") {

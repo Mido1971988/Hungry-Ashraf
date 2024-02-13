@@ -2,6 +2,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import { ImPacman } from "react-icons/im";
 
 export default function Footer() {
+  // to get dynamic Year
   const date = new Date();
   return (
     <Paper

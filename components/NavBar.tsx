@@ -8,59 +8,49 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import AlertDialog from "./Dialog";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import LeftDrawer from "./LeftDrawer";
 import RightDrawer from "./RightDrawer";
 import {
-  changeCookie,
   changeNumCookie,
+  changeRandomCookie,
   loading,
 } from "../serverActions/actions";
 import { foodList } from "../myData/foodList";
 import type { FoodList } from "../myData/foodList";
 import { IoSettingsOutline } from "react-icons/io5";
+import React from "react";
+import AlertDialog from "./Dialog";
 
 export default function Navbar({
   session,
-  cookieTheme,
   children,
 }: {
   session: Session | null;
-  cookieTheme: string;
   children: React.ReactElement[];
 }) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // to handle opening and closing of right drawer
+  const [openRightDrawer, setOpenRightDrawer] = useState(false);
+  // to handle opening and closing of left drawer
+  const [openLeftDrawer, setOpenLeftDrawer] = useState(false);
+  // to handle opening and closing dialog of sign out
   const [openDialog, setOpenDialog] = useState(false);
-  const open = Boolean(anchorEl);
+  // if you will use 1st option when you press on Random meal button
   // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const initialRenderRef = useRef(true);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleSignOut = () => {
-    setOpenDialog(true);
-  };
-
+  // toast when you return to home page after sigining in
   useEffect(() => {
     if (session?.user?.name === undefined) return;
-    if (initialRenderRef) {
-      initialRenderRef.current = false;
-      toast.error(children[1].props.id, {
-        icon: children[1],
-      });
-    }
+    toast.error(children[1].props.id, {
+      icon: children[1],
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const regx = /(?<=media\/).*?(?=\.)/gm;
+  // create random number to pass it to cookies
   let randomFoodNum = "0";
   if (session?.user?.name) {
     randomFoodNum = Math.floor(
@@ -68,11 +58,10 @@ export default function Navbar({
     ).toString();
   }
 
+  // to change random button
   useEffect(() => {
-    changeCookie("false");
+    changeRandomCookie("false");
   }, [session?.user?.name]);
-
-  const [openRightDrawer, setOpenRightDrawer] = useState(false);
 
   return (
     <AppBar
@@ -102,7 +91,7 @@ export default function Navbar({
             }}
             onClick={() => {
               if (session?.user) {
-                setOpenDrawer(true);
+                setOpenLeftDrawer(true);
               } else {
                 toast.error("Sign in to Show Profile Page");
               }
@@ -126,8 +115,6 @@ export default function Navbar({
                 <Button
                   color="inherit"
                   id="random-meal"
-                  aria-controls={open ? "random-meal" : undefined}
-                  aria-expanded={open ? "true" : undefined}
                   aria-haspopup="true"
                   sx={{
                     textTransform: "none",
@@ -135,13 +122,13 @@ export default function Navbar({
                     fontWeight: "bold",
                   }}
                   onClick={async () => {
-                    // using useCookies hook and router.refresh()
+                    // 1st option : using useCookies hook and router.refresh()
                     // setCookieRandom("random-meal-button", "true");
                     // changeNumCookie(randomFoodNum);
                     // router.refresh();
 
-                    // using server actions and revalidatePath("/")
-                    changeCookie("true");
+                    // 2nd option :  using server actions and revalidatePath("/")
+                    changeRandomCookie("true");
                     changeNumCookie(randomFoodNum);
                     loading("true");
                     setTimeout(() => loading("false"), 3000);
@@ -152,8 +139,6 @@ export default function Navbar({
                 <Button
                   color="inherit"
                   id="all-meals"
-                  aria-controls={open ? "all-meals" : undefined}
-                  aria-expanded={open ? "true" : undefined}
                   aria-haspopup="true"
                   sx={{
                     textTransform: "none",
@@ -163,7 +148,7 @@ export default function Navbar({
                   onClick={() => {
                     // setCookieRandom("random-meal-button", "false");
                     // router.refresh();
-                    changeCookie("false");
+                    changeRandomCookie("false");
                   }}
                 >
                   All Meals
@@ -182,15 +167,11 @@ export default function Navbar({
                 Login
               </Button>
             )}
-            <AlertDialog
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-            />
             <Button
               color="inherit"
               id="burger"
-              aria-controls={open ? "burger" : undefined}
-              aria-expanded={open ? "true" : undefined}
+              aria-controls={openRightDrawer ? "burger" : undefined}
+              aria-expanded={openRightDrawer ? "true" : undefined}
               aria-haspopup="true"
               onClick={() => setOpenRightDrawer(true)}
               sx={{
@@ -209,11 +190,12 @@ export default function Navbar({
         setOpenRightDrawer={setOpenRightDrawer}
       />
       <LeftDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+        openLeftDrawer={openLeftDrawer}
+        setOpenLeftDrawer={setOpenLeftDrawer}
         session={session}
         setOpenDialog={setOpenDialog}
       />
+      <AlertDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </AppBar>
   );
 }
