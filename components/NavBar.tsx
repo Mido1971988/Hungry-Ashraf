@@ -61,6 +61,12 @@ export default function Navbar({
     );
   }
 
+  // to reset random button when change user
+  useEffect(() => {
+    randomObj.randomBtn = false;
+    changeRandomCookie(JSON.stringify(randomObj));
+  }, [session?.user?.name]);
+
   return (
     <AppBar
       sx={{
