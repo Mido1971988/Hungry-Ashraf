@@ -17,21 +17,16 @@ export default async function CarouselComp() {
   const logogedUser: string = session?.user?.name
     ? session?.user?.name
     : "No-User";
+  // to get random Cookies
+  let randomCookie = cookies().get("random-meal-obj")?.value;
+  let randomObj = { randomBtn: false, randomNum: 0, loading: false };
+  if (randomCookie) randomObj = JSON.parse(randomCookie);
   // regex to extract food name from file name
   const regx = /(?<=media\/).*?(?=\.)/gm;
   const randomFood =
-    foodList[logogedUser as keyof FoodList][
-      cookies().get("random-meal-num")?.value
-        ? Number(cookies().get("random-meal-num")?.value)
-        : 0
-    ];
+    foodList[logogedUser as keyof FoodList][randomObj.randomNum];
   const randomFoodName = (foodList[logogedUser as keyof FoodList][
-    cookies().get("random-meal-num")?.value
-      ? Number(cookies().get("random-meal-num")?.value) <
-        foodList[logogedUser as keyof FoodList].length
-        ? Number(cookies().get("random-meal-num")?.value)
-        : 0
-      : 0
+    randomObj.randomNum
   ].src.match(regx) || ["no-match"])[0];
 
   return (
@@ -43,8 +38,8 @@ export default async function CarouselComp() {
       }}
       component={"section"}
     >
-      {cookies().get("random-meal-button")?.value === "true" ? (
-        cookies().get("random-loading")?.value === "true" ? (
+      {randomObj.randomBtn ? (
+        randomObj.loading ? (
           <Container
             style={{
               height: "calc(100svh - 114px)",

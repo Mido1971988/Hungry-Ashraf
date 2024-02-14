@@ -14,16 +14,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LeftDrawer from "./LeftDrawer";
 import RightDrawer from "./RightDrawer";
-import {
-  changeNumCookie,
-  changeRandomCookie,
-  loading,
-} from "../serverActions/actions";
+import { changeRandomCookie } from "../serverActions/actions";
 import { foodList } from "../myData/foodList";
 import type { FoodList } from "../myData/foodList";
 import { IoSettingsOutline } from "react-icons/io5";
 import React from "react";
 import AlertDialog from "./Dialog";
+// import { useCookies } from "react-cookie";
 
 export default function Navbar({
   session,
@@ -38,8 +35,14 @@ export default function Navbar({
   const [openLeftDrawer, setOpenLeftDrawer] = useState(false);
   // to handle opening and closing dialog of sign out
   const [openDialog, setOpenDialog] = useState(false);
+  // to handle disable porp of random button
+  const [randomDisabled, setRandomDisabled] = useState(false);
+  // to handle disable porp of all-meals button
+  const [allDisabled, setAllDisabled] = useState(true);
   // if you will use 1st option when you press on Random meal button
   // const [cookieRandom, setCookieRandom] = useCookies(["random-meal-button"]);
+  // random obj that will be passed to cookies
+  const randomObj = { randomBtn: false, randomNum: 0, loading: false };
 
   // toast when you return to home page after sigining in
   useEffect(() => {
@@ -51,17 +54,12 @@ export default function Navbar({
   }, []);
 
   // create random number to pass it to cookies
-  let randomFoodNum = "0";
+  let randomFoodNum = 0;
   if (session?.user?.name) {
     randomFoodNum = Math.floor(
       Math.random() * foodList[session?.user?.name as keyof FoodList].length
-    ).toString();
+    );
   }
-
-  // to change random button
-  useEffect(() => {
-    changeRandomCookie("false");
-  }, [session?.user?.name]);
 
   return (
     <AppBar
@@ -116,6 +114,7 @@ export default function Navbar({
                   color="inherit"
                   id="random-meal"
                   aria-haspopup="true"
+                  disabled={randomDisabled}
                   sx={{
                     textTransform: "none",
                     fontFamily: "revert-layer",
@@ -128,10 +127,17 @@ export default function Navbar({
                     // router.refresh();
 
                     // 2nd option :  using server actions and revalidatePath("/")
-                    changeRandomCookie("true");
-                    changeNumCookie(randomFoodNum);
-                    loading("true");
-                    setTimeout(() => loading("false"), 3000);
+                    setRandomDisabled(true);
+                    randomObj.randomBtn = true;
+                    randomObj.randomNum = randomFoodNum;
+                    randomObj.loading = true;
+                    changeRandomCookie(JSON.stringify(randomObj));
+                    setTimeout(() => {
+                      setAllDisabled(false);
+                      randomObj.loading = false;
+                      changeRandomCookie(JSON.stringify(randomObj));
+                      setRandomDisabled(false);
+                    }, 3000);
                   }}
                 >
                   Random Meal
@@ -140,6 +146,7 @@ export default function Navbar({
                   color="inherit"
                   id="all-meals"
                   aria-haspopup="true"
+                  disabled={allDisabled}
                   sx={{
                     textTransform: "none",
                     fontFamily: "revert-layer",
@@ -148,7 +155,9 @@ export default function Navbar({
                   onClick={() => {
                     // setCookieRandom("random-meal-button", "false");
                     // router.refresh();
-                    changeRandomCookie("false");
+                    setAllDisabled(true);
+                    randomObj.randomBtn = false;
+                    changeRandomCookie(JSON.stringify(randomObj));
                   }}
                 >
                   All Meals
