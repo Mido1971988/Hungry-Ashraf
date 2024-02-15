@@ -28,7 +28,7 @@ export const options: NextAuthOptions = {
 
           // 1st option fetch from Api
           const response = await fetch(
-            process.cwd() + "/myData/listOfUsers.json"
+            process.env.NEXTAUTH_URL + "/api/listOfUsers"
           );
           const userList = await response.json();
 
