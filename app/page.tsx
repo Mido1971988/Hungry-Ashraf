@@ -13,13 +13,8 @@ import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
 import Loading from "../components/Loading";
 import { ToastContainer } from "react-toastify";
-import { promises as fs, readFileSync } from "fs";
-import path from "path";
 
 export default async function Home() {
-  const file = path.join(process.cwd(), "myData", "listOfUsers.json");
-
-  const data = readFileSync(file, "utf8");
   // to get session of auth on server side
   const session = await getServerSession(options);
 
@@ -99,7 +94,6 @@ export default async function Home() {
           <Loading />
         </Container>
       )}
-      <h1>{data}</h1>
       <Footer />
       <ToastContainer
         hideProgressBar

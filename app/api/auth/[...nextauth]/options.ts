@@ -1,7 +1,8 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { promises as fs } from "fs";
+import { promises as fs, readFileSync } from "fs";
 import listOfUsers from "../../../../myData/listOfUsers.json";
+import path from "path";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -27,10 +28,10 @@ export const options: NextAuthOptions = {
             return null;
 
           // 1st option fetch from Api
-          const response = await fetch(
-            process.env.NEXTAUTH_URL + "/api/listOfUsers"
-          );
-          const userList = await response.json();
+          // const response = await fetch(
+          //   process.env.NEXTAUTH_URL + "/api/listOfUsers"
+          // );
+          // const userList = await response.json();
 
           // 2nd option read file using NodeJs
           // const file = await fs.readFile(
@@ -38,6 +39,9 @@ export const options: NextAuthOptions = {
           //   "utf8"
           // );
           // const userList = JSON.parse(file);
+          const file = path.join(process.cwd(), "myData", "listOfUsers.json");
+          const data = readFileSync(file, "utf8");
+          const userList = JSON.parse(data);
 
           let user = userList.filter(
             (oneUser: { id: string; name: string; password: string }) => {
