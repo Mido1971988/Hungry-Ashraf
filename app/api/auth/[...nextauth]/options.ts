@@ -34,11 +34,6 @@ export const options: NextAuthOptions = {
           // const userList = await response.json();
 
           // 2nd option read file using NodeJs
-          // const file = await fs.readFile(
-          //   process.cwd() + "/myData/listOfUsers.json",
-          //   "utf8"
-          // );
-          // const userList = JSON.parse(file);
           const file = path.join(process.cwd(), "myData", "listOfUsers.json");
           const data = readFileSync(file, "utf8");
           const userList = JSON.parse(data);
