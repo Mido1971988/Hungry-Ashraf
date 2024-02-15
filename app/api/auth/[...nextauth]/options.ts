@@ -27,17 +27,17 @@ export const options: NextAuthOptions = {
             return null;
 
           // 1st option fetch from Api
-          // const response = await fetch(
-          //   process.env.NEXTAUTH_URL + "/api/listOfUsers"
-          // );
-          // const userList = await response.json();
+          const response = await fetch(
+            process.env.NEXTAUTH_URL + "/api/listOfUsers"
+          );
+          const userList = await response.json();
 
           // 2nd option read file using NodeJs
-          const file = await fs.readFile(
-            process.cwd() + "/static/data/listOfUsers.json",
-            "utf8"
-          );
-          const userList = JSON.parse(file);
+          // const file = await fs.readFile(
+          //   process.cwd() + "/myData/listOfUsers.json",
+          //   "utf8"
+          // );
+          // const userList = JSON.parse(file);
 
           let user = userList.filter(
             (oneUser: { id: string; name: string; password: string }) => {

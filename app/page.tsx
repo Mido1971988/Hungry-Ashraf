@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import CarouselComp from "@/components/CarouselComp";
 import Loading from "../components/Loading";
 import { ToastContainer } from "react-toastify";
+import { promises as fs } from "fs";
 
 export default async function Home() {
   // to get session of auth on server side
@@ -59,6 +60,13 @@ export default async function Home() {
       break;
   }
 
+  const file = await fs.readFile(
+    process.cwd() + "/myData/listOfUsers.json",
+    "utf8"
+  );
+  const userList = JSON.parse(file);
+  console.log(file);
+
   return (
     // svh suitable for both mobile and desktop
     <div style={{ minHeight: "100svh" }}>
@@ -94,6 +102,7 @@ export default async function Home() {
           <Loading />
         </Container>
       )}
+      <h1>{file}</h1>
       <Footer />
       <ToastContainer
         hideProgressBar
