@@ -27,7 +27,9 @@ export const options: NextAuthOptions = {
             return null;
 
           // 1st option fetch from Api
-          const response = await fetch("http://localhost:3000/api/listOfUsers");
+          const response = await fetch(
+            process.cwd() + "/myData/listOfUsers.json"
+          );
           const userList = await response.json();
 
           // 2nd option read file using NodeJs
