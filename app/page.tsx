@@ -61,7 +61,7 @@ export default async function Home() {
   }
 
   const file = await fs.readFile(
-    process.cwd() + "/myData/listOfUsers.json",
+    process.cwd() + "/public/listOfUsers.json",
     "utf8"
   );
   const userList = JSON.parse(file);
