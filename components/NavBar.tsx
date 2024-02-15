@@ -65,6 +65,7 @@ export default function Navbar({
   useEffect(() => {
     randomObj.randomBtn = false;
     changeRandomCookie(JSON.stringify(randomObj));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.user?.name]);
 
   return (
