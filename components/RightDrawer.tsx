@@ -70,7 +70,12 @@ export default function RightDrawer({
     <Drawer
       anchor="right"
       open={openRightDrawer}
-      style={{ borderRadius: "50px" }}
+      sx={{
+        "& .MuiDrawer-paperAnchorRight": {
+          borderTopLeftRadius: "15px",
+          borderBottomLeftRadius: "15px",
+        },
+      }}
     >
       <Stack
         sx={{
@@ -152,6 +157,9 @@ export default function RightDrawer({
                 "& .MuiTabs-scroller": {
                   backgroundColor: "background.default",
                 },
+                "& .MuiButtonBase-root": {
+                  minHeight: "40px",
+                },
               }}
             >
               <Tab
@@ -166,6 +174,9 @@ export default function RightDrawer({
                   borderTopLeftRadius: "15px",
                   borderBottomLeftRadius: "15px",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"dark"}
               />
@@ -179,6 +190,9 @@ export default function RightDrawer({
                   fontFamily: "IBM Plex Sans",
                   fontWeight: "bold",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"system"}
               />
@@ -194,6 +208,9 @@ export default function RightDrawer({
                   borderTopRightRadius: "15px",
                   borderBottomRightRadius: "15px",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"light"}
               />
@@ -243,6 +260,9 @@ export default function RightDrawer({
                 "& .MuiTabs-scroller": {
                   backgroundColor: "background.default",
                 },
+                "& .MuiButtonBase-root": {
+                  minHeight: "40px",
+                },
               }}
             >
               <Tab
@@ -256,6 +276,9 @@ export default function RightDrawer({
                   borderTopLeftRadius: "15px",
                   borderBottomLeftRadius: "15px",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"perfect"}
               />
@@ -268,6 +291,9 @@ export default function RightDrawer({
                   fontFamily: "IBM Plex Sans",
                   fontWeight: "bold",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"good"}
               />
@@ -282,6 +308,9 @@ export default function RightDrawer({
                   borderTopRightRadius: "15px",
                   borderBottomRightRadius: "15px",
                   border: "1px solid #313741",
+                  "&.Mui-selected": {
+                    border: "1px solid #004c99",
+                  },
                 }}
                 value={"bad"}
               />

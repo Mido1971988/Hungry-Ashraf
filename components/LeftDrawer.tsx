@@ -96,6 +96,12 @@ export default function LeftDrawer({
       anchor="left"
       open={openLeftDrawer}
       onClose={() => setOpenLeftDrawer(false)}
+      sx={{
+        "& .MuiDrawer-paperAnchorLeft": {
+          borderTopRightRadius: "5px",
+          borderBottomRightRadius: "5px",
+        },
+      }}
     >
       <Stack
         width={"220px"}

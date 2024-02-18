@@ -35,6 +35,11 @@ export default async function CarouselComp() {
         height: "calc(100svh - 114px)",
         position: "relative",
         top: "64px",
+        "& .carousel-root , & .carousel-slider , & .slider-wrapper , & .slider":
+          {
+            width: "100%",
+            height: "100%",
+          },
       }}
       component={"section"}
     >
@@ -50,7 +55,9 @@ export default async function CarouselComp() {
               flexDirection: "column",
               gap: "40px",
             }}
-            sx={{ fontSize: { xs: "12px", sm: "16px" } }}
+            sx={{
+              fontSize: { xs: "12px", sm: "16px" },
+            }}
           >
             <h1>Searhing for Best Meal for You....</h1>
             <Loading />

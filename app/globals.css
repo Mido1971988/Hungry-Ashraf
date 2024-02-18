@@ -100,36 +100,6 @@ a {
   text-decoration: none;
 }
 
-/* to give carousel width and height so you can use 100% on images */
-.carousel-root,
-.carousel-slider,
-.slider-wrapper,
-.slider {
-  width: 100%;
-  height: 100%;
-}
-
-/* to Override default min-height of tab in right drawer*/
-.MuiTabs-flexContainer,
-.MuiButtonBase-root {
-  min-height: 40px !important;
-}
-
-/* to change backgroun color when select Tab in right Drawer */
-.MuiButtonBase-root.Mui-selected {
-  border: 1px solid #004c99;
-}
-
-/* to add border-radius for right and right Drawer */
-.MuiDrawer-paperAnchorRight {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-.MuiDrawer-paperAnchorLeft {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
